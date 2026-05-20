@@ -49,11 +49,7 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: var(--ink)
 }
 
 /* ── SCANLINE OVERLAY ─────────────────────────── */
-.app::before {
-  content: '';
-  position: fixed; inset: 0; z-index: 9999; pointer-events: none;
-  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px);
-}
+.app::before { content: none; }
 
 /* ── HEADER ───────────────────────────────────── */
 header {
@@ -567,6 +563,252 @@ header {
   .v2-controlbar { max-width: calc(100% - 24px); top: 58px; }
   .v2-compare { grid-template-columns: 1fr; bottom: 62px; }
 }
+
+/* ════════════════════════════════════════════════════
+   V2 CLEAN RELIABILITY PATCH — removes legacy visual
+   noise and turns the cockpit into a stable white app
+════════════════════════════════════════════════════ */
+html, body {
+  background: #f4f8fb;
+  color: #142536;
+  overflow: hidden;
+}
+.app {
+  height: 100vh;
+  padding: 12px;
+  gap: 12px;
+  background: #f4f8fb;
+  grid-template-rows: 64px minmax(0, 1fr) 190px;
+  grid-template-columns: minmax(270px, 320px) minmax(560px, 1fr) minmax(300px, 360px);
+}
+header, .left-panel, .right-panel, .bottom-bar, .map-hud, .sim-toolbar,
+.view-toggle, .v2-controlbar, .v2-compare-pane, .v2-demo-card, .v2-export-menu {
+  box-shadow: 0 12px 34px rgba(15, 69, 95, 0.10);
+}
+header {
+  border: 1px solid rgba(14,86,116,0.12);
+  border-radius: 12px;
+  padding: 0 18px;
+  background: rgba(255,255,255,0.98);
+}
+.hdr-title { font-size: 15px; font-weight: 700; }
+.hdr-sub { font-size: 9px; color: #6b8391; }
+.hdr-center { gap: 4px; }
+.nav-btn {
+  min-height: 30px;
+  padding: 6px 10px;
+  border-radius: 7px;
+  font-size: 8px;
+}
+.nav-btn.active { background: #eaf6fb; color: #076f91; border-color: rgba(8,127,167,0.26); }
+.left-panel, .right-panel {
+  border: 1px solid rgba(14,86,116,0.12);
+  border-radius: 12px;
+  background: rgba(255,255,255,0.98);
+}
+.panel-hdr {
+  min-height: 42px;
+  padding: 10px 14px;
+  background: #fbfdfe;
+}
+.section {
+  padding: 12px 14px;
+  border-bottom: 1px solid rgba(14,86,116,0.10);
+}
+.anomaly-strip {
+  background: #fff;
+  border-bottom: 1px solid rgba(14,86,116,0.10);
+  gap: 6px;
+  padding: 10px 14px;
+}
+.anomaly-chip, .kpi, .sov-card, .v2-readout, .v2-authority-card,
+.v2-source-card, .v2-method-step {
+  background: #f7fbfd;
+  border-color: rgba(14,86,116,0.12);
+  border-radius: 8px;
+}
+.globe-area {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  gap: 10px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #e8f1f5;
+  border: 1px solid rgba(14,86,116,0.12);
+}
+#map {
+  grid-row: 1 / 4;
+  grid-column: 1;
+  min-height: 0;
+}
+.view-toggle {
+  top: 12px;
+  left: 12px;
+  border-radius: 9px;
+  background: rgba(255,255,255,0.96);
+}
+.v2-controlbar {
+  top: 12px;
+  left: 50%;
+  max-width: min(720px, calc(100% - 260px));
+  border-radius: 10px;
+  padding: 6px;
+  background: rgba(255,255,255,0.97);
+}
+.v2-mode-btn, .v2-action-btn, .v2-upload-btn {
+  min-height: 30px;
+  border-radius: 7px;
+  font-size: 8px;
+}
+.v2-export-primary {
+  background: #087fa7;
+  color: #fff;
+}
+.map-hud {
+  top: 64px;
+  right: 12px;
+  min-width: 220px;
+  border-radius: 10px;
+}
+.sim-toolbar {
+  left: 12px;
+  right: 12px;
+  bottom: 12px;
+  border-radius: 10px;
+  flex-wrap: wrap;
+}
+.v2-compare {
+  left: 12px;
+  right: 12px;
+  bottom: 74px;
+  max-height: min(310px, calc(100% - 150px));
+  overflow: auto;
+}
+.v2-compare-pane { border-radius: 10px; }
+.v2-export-menu {
+  position: fixed;
+  top: 88px;
+  right: 28px;
+  left: auto;
+  transform: none;
+  border-radius: 10px;
+}
+.v2-demo-card {
+  position: fixed;
+  right: 28px;
+  bottom: 226px;
+  border-radius: 12px;
+}
+.v2-globe-notice {
+  display: none;
+  position: absolute;
+  top: 116px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 430;
+  width: min(420px, calc(100% - 32px));
+  background: rgba(255,255,255,0.98);
+  border: 1px solid rgba(14,86,116,0.16);
+  border-radius: 12px;
+  padding: 14px 16px;
+  box-shadow: 0 14px 36px rgba(15, 69, 95, 0.12);
+  text-align: center;
+}
+.globe-preview .v2-globe-notice { display: block; }
+.v2-globe-notice strong {
+  display: block;
+  font-family: var(--mono);
+  font-size: 10px;
+  color: #087fa7;
+  text-transform: uppercase;
+  margin-bottom: 5px;
+}
+.v2-globe-notice span {
+  display: block;
+  font-size: 12px;
+  line-height: 1.35;
+  color: #416274;
+}
+.bottom-bar {
+  border: 1px solid rgba(14,86,116,0.12);
+  border-radius: 12px;
+  background: rgba(255,255,255,0.98);
+  overflow: hidden;
+}
+.chart-cell {
+  padding: 12px 14px;
+  min-width: 0;
+}
+.leaflet-tile { filter: saturate(0.96) contrast(0.98); }
+.leaflet-popup-content-wrapper, .leaflet-popup-tip { background: #fff !important; }
+.leaflet-popup-content b { color: #142536 !important; }
+.leaflet-popup-content span { color: #416274 !important; }
+.khz-map-label, .khz-sea-label, .khz-feature-label, .khz-basin-label {
+  text-shadow: 0 1px 2px rgba(255,255,255,0.92) !important;
+}
+.khz-sea-label { color: rgba(20,37,54,0.78) !important; }
+.khz-map-label { color: #087fa7 !important; }
+.khz-feature-label { color: #416274 !important; }
+.khz-basin-label {
+  background: rgba(255,255,255,0.90) !important;
+  color: #087fa7 !important;
+  border-color: rgba(8,127,167,0.24) !important;
+}
+.mode-exec [data-tier="ops"],
+.mode-exec [data-tier="evidence"],
+.mode-exec [data-tier="technical"] { display: none !important; }
+.mode-ops [data-tier="evidence"],
+.mode-ops [data-tier="technical"] { display: none !important; }
+.mode-evidence [data-tier="technical"] { display: none !important; }
+.presentation-mode .left-panel,
+.presentation-mode .right-panel,
+.presentation-mode .bottom-bar,
+.presentation-mode header .hdr-center,
+.presentation-mode header .sov-badge,
+.presentation-mode header .live-badge {
+  display: none !important;
+}
+.presentation-mode .app {
+  grid-template-rows: 64px minmax(0, 1fr);
+  grid-template-columns: 1fr;
+  grid-template-areas:
+    "header"
+    "globe";
+}
+.presentation-mode .sim-toolbar {
+  left: 12px;
+  right: 12px;
+  width: auto;
+  transform: none;
+}
+@media (max-width: 1100px) {
+  html, body { overflow: auto; }
+  .app {
+    height: auto;
+    min-height: 100vh;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto minmax(560px, 68vh) auto auto auto;
+    grid-template-areas:
+      "header"
+      "globe"
+      "left"
+      "bottom"
+      "right";
+  }
+  header, .hdr-center, .hdr-right { flex-wrap: wrap; gap: 8px; }
+  .left-panel, .right-panel { grid-row: auto; max-height: none; }
+  .globe-area { min-height: 560px; }
+  .bottom-bar { grid-template-columns: 1fr 1fr; }
+  .v2-controlbar {
+    left: 12px;
+    right: 12px;
+    transform: none;
+    max-width: none;
+    top: 58px;
+  }
+  .map-hud { top: 112px; }
+  .v2-globe-notice { top: 166px; }
+}
 </style>
 </head>
 <body>
@@ -586,11 +828,11 @@ header {
     </div>
   </div>
   <div class="hdr-center">
-    <button class="nav-btn active" onclick="switchView('geoint',this)">GEOINT</button>
-    <button class="nav-btn" onclick="switchView('hydro',this)">HYDROLOGY</button>
-    <button class="nav-btn" onclick="switchView('climate',this)">CLIMATE AI</button>
-    <button class="nav-btn" onclick="switchView('energy',this)">ENERGY</button>
-    <button class="nav-btn" onclick="switchView('security',this)">SECURITY</button>
+    <button class="nav-btn active" data-view="geoint" onclick="switchView('geoint',this)">GEOINT</button>
+    <button class="nav-btn" data-view="hydro" onclick="switchView('hydro',this)">HYDROLOGY</button>
+    <button class="nav-btn" data-view="climate" onclick="switchView('climate',this)">CLIMATE AI</button>
+    <button class="nav-btn" data-view="energy" onclick="switchView('energy',this)">ENERGY</button>
+    <button class="nav-btn" data-view="security" onclick="switchView('security',this)">SECURITY</button>
   </div>
   <div class="hdr-right">
     <div class="sov-badge">
@@ -654,7 +896,7 @@ header {
     </div>
 
     <!-- V2 REGIONAL RESEARCH AUTHORITY -->
-    <div class="section" data-tier="ops">
+    <div class="section" data-tier="exec">
       <div class="sec-label">Regional Research Authority</div>
       <div class="v2-authority-grid">
         <div class="v2-authority-card">
@@ -681,7 +923,7 @@ header {
     </div>
 
     <!-- KPIs -->
-    <div class="section" data-tier="ops">
+    <div class="section" data-tier="exec">
       <div class="sec-label">Physical Parameters</div>
       <div class="kpi-grid">
         <div class="kpi c-red">
@@ -718,7 +960,7 @@ header {
     </div>
 
     <!-- LITTORAL STATES -->
-    <div class="section" data-tier="ops">
+    <div class="section" data-tier="exec">
       <div class="sec-label">Littoral States</div>
       <div class="country-row" onclick="flyTo([40.4,49.8],8)">
         <span class="flag">🇦🇿</span>
@@ -766,10 +1008,10 @@ header {
     <div class="section" data-tier="ops">
       <div class="sec-label">Map Layers</div>
       <div class="tile-row">
-        <div class="tile-pill active" onclick="setTile('satellite',this)">SATELLITE</div>
-        <div class="tile-pill" onclick="setTile('osm',this)">OSM</div>
-        <div class="tile-pill" onclick="setTile('topo',this)">TOPO</div>
-        <div class="tile-pill" onclick="setTile('dark',this)">NIGHT</div>
+        <div class="tile-pill active" data-tile="satellite" onclick="setTile('satellite',this)">SATELLITE</div>
+        <div class="tile-pill" data-tile="osm" onclick="setTile('osm',this)">OSM</div>
+        <div class="tile-pill" data-tile="topo" onclick="setTile('topo',this)">TOPO</div>
+        <div class="tile-pill" data-tile="dark" onclick="setTile('dark',this)">NIGHT</div>
       </div>
       <div class="layer-row">
         <div class="layer-dot" style="background:#00c8ff;"></div>
@@ -777,7 +1019,7 @@ header {
           <div class="layer-name">Bathymetry / Depth Zones</div>
           <div class="layer-src">ERA5 · Copernicus Marine</div>
         </div>
-        <button class="toggle2 on" onclick="this.classList.toggle('on');this.classList.toggle('off')"></button>
+        <button class="toggle2 on" data-layer="bathymetry" onclick="toggleV2Layer('bathymetry',this)" aria-label="Toggle bathymetry layer"></button>
       </div>
       <div class="layer-row">
         <div class="layer-dot" style="background:#f5a623;"></div>
@@ -785,7 +1027,7 @@ header {
           <div class="layer-name">Oil Infrastructure</div>
           <div class="layer-src">OSINT · AIS tracking</div>
         </div>
-        <button class="toggle2 on" onclick="this.classList.toggle('on');this.classList.toggle('off')"></button>
+        <button class="toggle2 on" data-layer="oil" onclick="toggleV2Layer('oil',this)" aria-label="Toggle oil infrastructure layer"></button>
       </div>
       <div class="layer-row">
         <div class="layer-dot" style="background:#00e676;"></div>
@@ -793,7 +1035,7 @@ header {
           <div class="layer-name">Chlorophyll / Algal Bloom</div>
           <div class="layer-src">MODIS Aqua · OLCI Sentinel-3</div>
         </div>
-        <button class="toggle2 off" onclick="this.classList.toggle('on');this.classList.toggle('off')"></button>
+        <button class="toggle2 off" data-layer="chlorophyll" onclick="toggleV2Layer('chlorophyll',this)" aria-label="Toggle chlorophyll layer"></button>
       </div>
       <div class="layer-row">
         <div class="layer-dot" style="background:#7c4dff;"></div>
@@ -801,7 +1043,7 @@ header {
           <div class="layer-name">River Inflow Monitoring</div>
           <div class="layer-src">Volga · Ural · Kura · Terek</div>
         </div>
-        <button class="toggle2 on" onclick="this.classList.toggle('on');this.classList.toggle('off')"></button>
+        <button class="toggle2 on" data-layer="rivers" onclick="toggleV2Layer('rivers',this)" aria-label="Toggle river inflow layer"></button>
       </div>
       <div class="layer-row">
         <div class="layer-dot" style="background:#ff4757;"></div>
@@ -809,7 +1051,7 @@ header {
           <div class="layer-name">Coastline Recession Zone</div>
           <div class="layer-src">Landsat-9 change detection</div>
         </div>
-        <button class="toggle2 on" onclick="this.classList.toggle('on');this.classList.toggle('off')"></button>
+        <button class="toggle2 on" data-layer="recession" onclick="toggleV2Layer('recession',this)" aria-label="Toggle coastline recession layer"></button>
       </div>
       <div class="layer-row">
         <div class="layer-dot" style="background:#00e5d0;"></div>
@@ -817,12 +1059,12 @@ header {
           <div class="layer-name">SST — Sea Surface Temp</div>
           <div class="layer-src">AVHRR · GOES-16</div>
         </div>
-        <button class="toggle2 off" onclick="this.classList.toggle('on');this.classList.toggle('off')"></button>
+        <button class="toggle2 off" data-layer="sst" onclick="toggleV2Layer('sst',this)" aria-label="Toggle sea surface temperature layer"></button>
       </div>
     </div>
 
     <!-- ALERTS -->
-    <div class="section" data-tier="ops">
+    <div class="section" data-tier="exec">
       <div class="sec-label">Environmental Alerts</div>
       <div class="alert-row">
         <div class="al-dot" style="background:var(--red);"></div>
@@ -870,12 +1112,16 @@ header {
 <div class="globe-area">
   <div id="map"></div>
   <canvas id="globe-canvas"></canvas>
+  <div class="v2-globe-notice" id="v2-globe-notice">
+    <strong>Globe preview / not connected</strong>
+    <span>The browser is keeping the live Leaflet workspace active. Connect the WebGL globe service when the sovereign compute node is available.</span>
+  </div>
 
   <!-- VIEW TOGGLE -->
   <div class="view-toggle">
-    <button class="vt-btn active" onclick="setMapView('map',this)">2D MAP</button>
-    <button class="vt-btn" onclick="setMapView('hybrid',this)">HYBRID</button>
-    <button class="vt-btn" onclick="setMapView('globe',this)">3D GLOBE</button>
+    <button class="vt-btn active" data-map-view="map" onclick="setMapView('map',this)">2D MAP</button>
+    <button class="vt-btn" data-map-view="hybrid" onclick="setMapView('hybrid',this)">HYBRID</button>
+    <button class="vt-btn" data-map-view="globe" onclick="setMapView('globe',this)">3D GLOBE</button>
   </div>
 
   <!-- V2 CONTROL BAR -->
@@ -930,6 +1176,11 @@ header {
     <div class="hud-row">
       <span class="hud-key">Data node</span>
       <span class="hud-val" style="color:var(--green);">AZ-001 ✓</span>
+    </div>
+    <div class="hud-divider"></div>
+    <div class="hud-row">
+      <span class="hud-key">Workspace</span>
+      <span class="hud-val" id="v2-workspace-status">Geoint view ready</span>
     </div>
   </div>
 
@@ -1392,14 +1643,119 @@ const tileLayers = {
 };
 tileLayers.satellite.layer.addTo(map);
 let currentTile = 'satellite';
+const V2_LAYER_GROUPS = {
+  bathymetry: L.layerGroup().addTo(map),
+  oil: L.layerGroup().addTo(map),
+  chlorophyll: L.layerGroup(),
+  rivers: L.layerGroup().addTo(map),
+  recession: L.layerGroup().addTo(map),
+  sst: L.layerGroup()
+};
+const V2_LAYER_LABELS = {
+  bathymetry: 'Bathymetry',
+  oil: 'Oil infrastructure',
+  chlorophyll: 'Chlorophyll',
+  rivers: 'River inflow',
+  recession: 'Coastline recession',
+  sst: 'Sea surface temperature'
+};
+const V2_VIEW_CONFIG = {
+  geoint: {
+    label: 'GEOINT',
+    tile: 'satellite',
+    mode: 'exec',
+    center: [41.5, 51.0],
+    zoom: 6,
+    status: 'GEOINT view: basin-wide satellite, bathymetry, infrastructure and recession layers.',
+    layers: {bathymetry:true, oil:true, chlorophyll:false, rivers:true, recession:true, sst:false}
+  },
+  hydro: {
+    label: 'HYDROLOGY',
+    tile: 'topo',
+    mode: 'ops',
+    center: [46.0, 49.4],
+    zoom: 6,
+    status: 'Hydrology view: Volga, Ural, Kura and Terek inflow stress with depth context.',
+    layers: {bathymetry:true, oil:false, chlorophyll:false, rivers:true, recession:true, sst:false}
+  },
+  climate: {
+    label: 'CLIMATE AI',
+    tile: 'osm',
+    mode: 'evidence',
+    center: [40.4, 50.3],
+    zoom: 6,
+    status: 'Climate AI view: ecological bloom, SST and forecast evidence layers.',
+    layers: {bathymetry:false, oil:false, chlorophyll:true, rivers:true, recession:true, sst:true}
+  },
+  energy: {
+    label: 'ENERGY',
+    tile: 'satellite',
+    mode: 'ops',
+    center: [41.0, 50.7],
+    zoom: 6,
+    status: 'Energy view: offshore fields, corridor exposure and coastal recession risk.',
+    layers: {bathymetry:true, oil:true, chlorophyll:false, rivers:false, recession:true, sst:false}
+  },
+  security: {
+    label: 'SECURITY',
+    tile: 'satellite',
+    mode: 'technical',
+    center: [40.6, 49.8],
+    zoom: 7,
+    status: 'Security view: infrastructure watch, export metadata and audit-ready source evidence.',
+    layers: {bathymetry:false, oil:true, chlorophyll:false, rivers:true, recession:true, sst:false}
+  }
+};
+function addOverlay(layer, key) {
+  const group = V2_LAYER_GROUPS[key];
+  if(group) layer.addTo(group);
+  else layer.addTo(map);
+  return layer;
+}
+function setWorkspaceStatus(message) {
+  const el = document.getElementById('v2-workspace-status');
+  if(el) el.textContent = message;
+}
+function syncLayerButton(key, active) {
+  document.querySelectorAll(`.toggle2[data-layer="${key}"]`).forEach(btn => {
+    btn.classList.toggle('on', active);
+    btn.classList.toggle('off', !active);
+    btn.setAttribute('aria-pressed', active ? 'true' : 'false');
+    btn.title = `${V2_LAYER_LABELS[key] || key}: ${active ? 'visible' : 'hidden'}`;
+  });
+}
+function syncLayerButtons() {
+  Object.keys(V2_LAYER_GROUPS).forEach(key => syncLayerButton(key, map.hasLayer(V2_LAYER_GROUPS[key])));
+}
+function setLayerState(key, active) {
+  const group = V2_LAYER_GROUPS[key];
+  if(!group) return false;
+  const isVisible = map.hasLayer(group);
+  if(active && !isVisible) group.addTo(map);
+  if(!active && isVisible) map.removeLayer(group);
+  syncLayerButton(key, active);
+  return active;
+}
+function toggleV2Layer(key) {
+  const group = V2_LAYER_GROUPS[key];
+  if(!group) return;
+  const active = !map.hasLayer(group);
+  setLayerState(key, active);
+  setWorkspaceStatus(`${V2_LAYER_LABELS[key] || key}: ${active ? 'visible' : 'hidden'}`);
+}
+function syncMapViewButton(type) {
+  document.querySelectorAll('.vt-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.mapView === type));
+}
 
 function setTile(name, el) {
-  map.removeLayer(tileLayers[currentTile].layer);
+  if(!tileLayers[name]) return;
+  if(tileLayers[currentTile] && map.hasLayer(tileLayers[currentTile].layer)) map.removeLayer(tileLayers[currentTile].layer);
   tileLayers[name].layer.addTo(map);
   currentTile = name;
   document.getElementById('tile-name').textContent = tileLayers[name].label;
-  document.querySelectorAll('.tile-pill').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tile-pill').forEach(p => p.classList.toggle('active', p.dataset.tile === name));
   if(el) el.classList.add('active');
+  setWorkspaceStatus(`Basemap: ${tileLayers[name].label}`);
 }
 
 // ════════════════════════════════════════════
@@ -1415,11 +1771,11 @@ const countryLabels = [
   { n:'AZERBAIJAN', s:'AZ', pos:[40.3,47.8] }
 ];
 countryLabels.forEach(c => {
-  L.marker(c.pos,{icon:L.divIcon({className:'',html:`<div style="font-family:'Space Mono',monospace;font-size:10px;font-weight:700;color:#00c8ff;text-shadow:0 0 8px rgba(0,20,40,0.9),0 0 2px rgba(0,20,40,0.9);letter-spacing:2px;white-space:nowrap;">${c.n}</div><div style="font-size:8px;color:#7eadc8;text-shadow:0 0 6px rgba(0,10,20,0.9);">${c.s}</div>`,iconSize:[140,30],iconAnchor:[70,15]}),interactive:false}).addTo(map);
+  L.marker(c.pos,{icon:L.divIcon({className:'',html:`<div class="khz-map-label" style="font-family:'Space Mono',monospace;font-size:10px;font-weight:700;white-space:nowrap;">${c.n}</div><div class="khz-feature-label" style="font-size:8px;">${c.s}</div>`,iconSize:[140,30],iconAnchor:[70,15]}),interactive:false}).addTo(map);
 });
 
 // Sea name
-L.marker([42.0,50.8],{icon:L.divIcon({className:'',html:`<div style="font-family:'Outfit',sans-serif;font-size:20px;font-weight:200;color:#e8f4ff;text-shadow:0 0 20px rgba(0,200,255,0.5);letter-spacing:4px;white-space:nowrap;opacity:0.85;">CASPIAN SEA</div><div style="font-family:'Space Mono',monospace;font-size:9px;color:#7eadc8;text-align:center;letter-spacing:2px;text-shadow:0 0 8px rgba(0,10,20,0.9);">Xəzər · خزر · Каспийское море</div>`,iconSize:[240,40],iconAnchor:[120,20]}),interactive:false}).addTo(map);
+L.marker([42.0,50.8],{icon:L.divIcon({className:'',html:`<div class="khz-sea-label" style="font-family:'Outfit',sans-serif;font-size:20px;font-weight:300;white-space:nowrap;opacity:0.9;">CASPIAN SEA</div><div class="khz-feature-label" style="font-family:'Space Mono',monospace;font-size:9px;text-align:center;">Xəzər · خزر · Каспийское море</div>`,iconSize:[240,40],iconAnchor:[120,20]}),interactive:false}).addTo(map);
 
 // Cities — verified positions
 const cities = [
@@ -1439,27 +1795,27 @@ cities.forEach(c => {
   const sz = c.t==='capital'?13:c.t==='major'?9:7;
   const bg = c.t==='capital'?'#ff4757':'#00c8ff';
   const m = L.marker(c.pos,{icon:L.divIcon({className:'',html:`<div style="width:${sz}px;height:${sz}px;border-radius:50%;background:${bg};border:2px solid var(--ink);box-shadow:0 0 8px ${bg}55;"></div>`,iconSize:[sz,sz],iconAnchor:[sz/2,sz/2]})});
-  m.addTo(map).bindPopup(`<b style="color:#e8f4ff;">${c.n}</b><br><span style="color:#7eadc8;">${c.s}</span>`);
-  L.marker(c.pos,{icon:L.divIcon({className:'',html:`<div style="font-family:'Space Mono',monospace;font-size:${c.t==='capital'?10:9}px;font-weight:${c.t==='capital'?700:400};color:#e8f4ff;text-shadow:0 0 4px rgba(0,10,20,0.9),0 0 8px rgba(0,10,20,0.9);white-space:nowrap;margin-top:1px;">${c.n}</div>`,iconSize:[100,14],iconAnchor:[-5,7]}),interactive:false}).addTo(map);
+  m.addTo(map).bindPopup(`<b>${c.n}</b><br><span>${c.s}</span>`);
+  L.marker(c.pos,{icon:L.divIcon({className:'',html:`<div class="khz-feature-label" style="font-family:'Space Mono',monospace;font-size:${c.t==='capital'?10:9}px;font-weight:${c.t==='capital'?700:500};white-space:nowrap;margin-top:1px;">${c.n}</div>`,iconSize:[100,14],iconAnchor:[-5,7]}),interactive:false}).addTo(map);
 });
 
 // Kara-Bogaz-Gol
-L.marker([41.0,53.5],{icon:L.divIcon({className:'',html:`<div style="font-family:'Space Mono',monospace;font-size:8px;color:#f5a623;text-shadow:0 0 6px rgba(0,10,20,0.9);white-space:nowrap;">Kara-Bogaz-Gol</div><div style="font-size:7px;color:#7eadc8;font-family:'Space Mono',monospace;">Evaporation lagoon</div>`,iconSize:[130,24],iconAnchor:[65,12]}),interactive:false}).addTo(map);
+L.marker([41.0,53.5],{icon:L.divIcon({className:'',html:`<div class="khz-feature-label" style="font-family:'Space Mono',monospace;font-size:8px;color:#b87912;white-space:nowrap;">Kara-Bogaz-Gol</div><div class="khz-feature-label" style="font-size:7px;font-family:'Space Mono',monospace;">Evaporation lagoon</div>`,iconSize:[130,24],iconAnchor:[65,12]}),interactive:false}).addTo(map);
 
 // Absheron Peninsula
-L.marker([40.5,49.3],{icon:L.divIcon({className:'',html:`<div style="font-family:'Outfit',sans-serif;font-size:9px;font-weight:500;color:#7eadc8;text-shadow:0 0 4px rgba(0,10,20,0.9);white-space:nowrap;">Abşeron Peninsula</div>`,iconSize:[130,14],iconAnchor:[65,7]}),interactive:false}).addTo(map);
+L.marker([40.5,49.3],{icon:L.divIcon({className:'',html:`<div class="khz-feature-label" style="font-family:'Outfit',sans-serif;font-size:9px;font-weight:600;white-space:nowrap;">Abşeron Peninsula</div>`,iconSize:[130,14],iconAnchor:[65,7]}),interactive:false}).addTo(map);
 
 // Volga Delta
-L.marker([46.0,49.2],{icon:L.divIcon({className:'',html:`<div style="font-family:'Outfit',sans-serif;font-size:9px;font-weight:500;color:#7c4dff;text-shadow:0 0 4px rgba(0,10,20,0.9);white-space:nowrap;">Volga Delta</div>`,iconSize:[100,14],iconAnchor:[50,7]}),interactive:false}).addTo(map);
+addOverlay(L.marker([46.0,49.2],{icon:L.divIcon({className:'',html:`<div class="khz-feature-label" style="font-family:'Outfit',sans-serif;font-size:9px;font-weight:600;color:#6554c0;white-space:nowrap;">Volga Delta</div>`,iconSize:[100,14],iconAnchor:[50,7]}),interactive:false}), 'rivers');
 
 // ── DEPTH ZONES ──────────────────────────────
-L.polygon([[47.5,49.0],[47.5,54.0],[45.5,54.5],[45.0,50.0],[46.0,48.5]],{fillColor:'#7dd3fc',fillOpacity:0.12,color:'#00c8ff',weight:1,dashArray:'5 5'}).addTo(map).bindPopup('<b style="color:#e8f4ff;">North Caspian</b><br><span style="color:#7eadc8;">Avg depth: 4–6 m · Most sensitive to level change</span>');
-L.polygon([[45.0,50.0],[45.5,54.5],[42.0,54.5],[41.5,50.5],[43.0,48.5]],{fillColor:'#1560a8',fillOpacity:0.12,color:'#1560a8',weight:1,dashArray:'5 5'}).addTo(map).bindPopup('<b style="color:#e8f4ff;">Middle Caspian</b><br><span style="color:#7eadc8;">Derbent Depression · Max depth 788 m</span>');
-L.polygon([[41.5,50.5],[42.0,54.5],[37.0,54.5],[36.8,53.5],[37.0,50.0],[39.0,49.0]],{fillColor:'#0d1f35',fillOpacity:0.20,color:'#0d2a4a',weight:1,dashArray:'5 5'}).addTo(map).bindPopup('<b style="color:#e8f4ff;">South Caspian</b><br><span style="color:#7eadc8;">Max depth 1,025 m · Active tectonics</span>');
+addOverlay(L.polygon([[47.5,49.0],[47.5,54.0],[45.5,54.5],[45.0,50.0],[46.0,48.5]],{fillColor:'#7dd3fc',fillOpacity:0.12,color:'#087fa7',weight:1,dashArray:'5 5'}).bindPopup('<b>North Caspian</b><br><span>Avg depth: 4-6 m · Most sensitive to level change</span>'), 'bathymetry');
+addOverlay(L.polygon([[45.0,50.0],[45.5,54.5],[42.0,54.5],[41.5,50.5],[43.0,48.5]],{fillColor:'#1560a8',fillOpacity:0.10,color:'#1560a8',weight:1,dashArray:'5 5'}).bindPopup('<b>Middle Caspian</b><br><span>Derbent Depression · Max depth 788 m</span>'), 'bathymetry');
+addOverlay(L.polygon([[41.5,50.5],[42.0,54.5],[37.0,54.5],[36.8,53.5],[37.0,50.0],[39.0,49.0]],{fillColor:'#0d1f35',fillOpacity:0.14,color:'#0d2a4a',weight:1,dashArray:'5 5'}).bindPopup('<b>South Caspian</b><br><span>Max depth 1,025 m · Active tectonics</span>'), 'bathymetry');
 
 // Basin labels
 [{n:'North Basin',s:'Avg 5m',pos:[46.5,51.5],c:'#00c8ff'},{n:'Middle Basin',s:'Max 788m',pos:[43.5,51.8],c:'#1560a8'},{n:'South Basin',s:'Max 1,025m',pos:[39.8,51.5],c:'#7eadc8'}].forEach(b=>{
-  L.marker(b.pos,{icon:L.divIcon({className:'',html:`<div style="background:rgba(10,24,38,0.88);border:1px solid ${b.c}44;border-radius:4px;padding:3px 7px;font-family:'Space Mono',monospace;font-size:8px;font-weight:700;color:${b.c};white-space:nowrap;letter-spacing:1px;">${b.n}<br><span style="font-size:7px;font-weight:400;color:#7eadc8;">${b.s}</span></div>`,iconSize:[110,28],iconAnchor:[55,14]}),interactive:false}).addTo(map);
+  addOverlay(L.marker(b.pos,{icon:L.divIcon({className:'',html:`<div class="khz-basin-label" style="border-radius:5px;padding:3px 7px;font-family:'Space Mono',monospace;font-size:8px;font-weight:700;white-space:nowrap;">${b.n}<br><span style="font-size:7px;font-weight:500;color:#416274;">${b.s}</span></div>`,iconSize:[110,28],iconAnchor:[55,14]}),interactive:false}), 'bathymetry');
 });
 
 // ── OIL INFRASTRUCTURE ────────────────────────
@@ -1471,7 +1827,7 @@ const oilPlatforms = [
   {pos:[39.8,52.9],n:'Cheleken Block',s:'Turkmen offshore hydrocarbons'},
 ];
 oilPlatforms.forEach(p=>{
-  L.marker(p.pos,{icon:L.divIcon({className:'',html:`<div style="width:12px;height:12px;background:#f5a623;border:2px solid var(--ink);border-radius:2px;box-shadow:0 0 10px #f5a62377;transform:rotate(45deg);"></div>`,iconSize:[12,12],iconAnchor:[6,6]})}).addTo(map).bindPopup(`<b style="color:#e8f4ff;">${p.n}</b><br><span style="color:#7eadc8;">${p.s}</span>`);
+  addOverlay(L.marker(p.pos,{icon:L.divIcon({className:'',html:`<div style="width:12px;height:12px;background:#b87912;border:2px solid white;border-radius:2px;box-shadow:0 4px 10px rgba(184,121,18,0.28);transform:rotate(45deg);"></div>`,iconSize:[12,12],iconAnchor:[6,6]})}).bindPopup(`<b>${p.n}</b><br><span>${p.s}</span>`), 'oil');
 });
 
 // ── RIVERS ────────────────────────────────────
@@ -1481,10 +1837,14 @@ const rivers=[
   {pts:[[42.5,46.5],[41.8,47.5],[41.7,49.4]],n:'Kura River',f:'16.8 km³/yr'},
   {pts:[[44.3,44.9],[43.5,47.1],[43.6,47.8]],n:'Terek River',f:'10.6 km³/yr'},
 ];
-rivers.forEach(r=>{L.polyline(r.pts,{color:'#7c4dff',weight:2.5,opacity:0.65,dashArray:'6 4'}).addTo(map).bindPopup(`<b style="color:#e8f4ff;">${r.n}</b><br><span style="color:#7eadc8;">${r.f}</span>`);});
+rivers.forEach(r=>{addOverlay(L.polyline(r.pts,{color:'#6554c0',weight:2.5,opacity:0.70,dashArray:'6 4'}).bindPopup(`<b>${r.n}</b><br><span>${r.f}</span>`), 'rivers');});
 
 // ── RECESSION ZONE ────────────────────────────
-L.polygon([[47.5,51.0],[47.0,53.0],[46.0,53.5],[45.5,54.0],[45.0,53.0],[45.5,51.0],[46.5,50.0]],{fillColor:'#ff4757',fillOpacity:0.10,color:'#ff4757',weight:1,dashArray:'3 6'}).addTo(map).bindPopup('<b style="color:#ff4757;">High Recession Zone</b><br><span style="color:#7eadc8;">~20,000 km² exposed lakebed since 2000</span>');
+addOverlay(L.polygon([[47.5,51.0],[47.0,53.0],[46.0,53.5],[45.5,54.0],[45.0,53.0],[45.5,51.0],[46.5,50.0]],{fillColor:'#c4414b',fillOpacity:0.10,color:'#c4414b',weight:1,dashArray:'3 6'}).bindPopup('<b style="color:#c4414b;">High Recession Zone</b><br><span>~20,000 km2 exposed lakebed since 2000</span>'), 'recession');
+
+// ── ECOLOGY / SST PREVIEW LAYERS ──────────────
+addOverlay(L.circle([40.55,50.1],{radius:65000,color:'#14845f',weight:1,fillColor:'#14845f',fillOpacity:0.14}).bindPopup('<b>Chlorophyll watch</b><br><span>Absheron bloom monitoring overlay</span>'), 'chlorophyll');
+addOverlay(L.circle([37.8,50.6],{radius:58000,color:'#00a69c',weight:1,fillColor:'#00a69c',fillOpacity:0.13}).bindPopup('<b>South Basin SST</b><br><span>Warm surface anomaly screening layer</span>'), 'sst');
 
 // ════════════════════════════════════════════
 // NAVIGATION
@@ -1523,16 +1883,34 @@ function resetSim() {
 }
 
 function setMapView(type, el) {
-  document.querySelectorAll('.vt-btn').forEach(b => b.classList.remove('active'));
-  el.classList.add('active');
-  if(type==='hybrid') { setTile('satellite', null); document.getElementById('tile-name').textContent='ESRI Satellite'; }
-  else if(type==='globe') { alert('3D Globe requires WebGL compute node — connect to sovereign GPU cluster.'); }
-  else { setTile('osm', null); }
+  syncMapViewButton(type);
+  if(el) el.classList.add('active');
+  document.body.classList.toggle('globe-preview', type === 'globe');
+  if(type === 'hybrid') {
+    setTile('satellite', null);
+    setWorkspaceStatus('Hybrid view: satellite map with operational overlays.');
+  } else if(type === 'globe') {
+    setTile('satellite', null);
+    setWorkspaceStatus('Globe preview is not connected; live 2D map remains active.');
+  } else {
+    setTile('osm', null);
+    setWorkspaceStatus('2D map view: clean OpenStreetMap basemap active.');
+  }
 }
 
 function switchView(name, el) {
-  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-  el.classList.add('active');
+  const config = V2_VIEW_CONFIG[name] || V2_VIEW_CONFIG.geoint;
+  document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.view === name));
+  if(el) el.classList.add('active');
+  document.body.classList.remove('globe-preview');
+  syncMapViewButton('map');
+  setTile(config.tile, null);
+  Object.entries(config.layers).forEach(([key, active]) => setLayerState(key, active));
+  if(typeof setStakeholderMode === 'function') setStakeholderMode(config.mode);
+  if(typeof V2_STATE !== 'undefined') V2_STATE.view = name;
+  map.flyTo(config.center, config.zoom, {duration:1.0});
+  setWorkspaceStatus(config.status);
+  updateV2Audit();
 }
 
 function runPipeline() {
@@ -1585,7 +1963,7 @@ const V2_DEMO = [
   {k:'Demo 4 / 5', title:'Scenario comparison', body:'Scenario A and B are rendered side by side with water level, area, inflow stress, alert severity and confidence metrics.'},
   {k:'Demo 5 / 5', title:'High-level export suite', body:'Exports include current setup JSON, chart CSV, comparison files and a clean PNG-ready dashboard summary.'}
 ];
-const V2_STATE = {mode:'exec', forecastDay:0, compare:false, presentation:false, demoIndex:0, calibration:null};
+const V2_STATE = {mode:'exec', view:'geoint', forecastDay:0, compare:false, presentation:false, demoIndex:0, calibration:null};
 
 function setStakeholderMode(mode){
   if(!['exec','ops','evidence','technical'].includes(mode)) mode = 'exec';
@@ -1730,23 +2108,34 @@ function stepDemo(delta){
   renderDemoCard();
 }
 function toggleExportMenu(){
-  document.getElementById('v2-export-menu')?.classList.toggle('open');
+  const menu = document.getElementById('v2-export-menu');
+  menu?.classList.toggle('open');
+  setWorkspaceStatus(menu?.classList.contains('open') ? 'Export suite ready.' : 'Export suite closed.');
 }
 function downloadBlob(filename, text, type){
   const blob = new Blob([text], {type});
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
   a.download = filename;
+  a.style.display = 'none';
+  document.body.appendChild(a);
   a.click();
-  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  document.getElementById('v2-export-menu')?.classList.remove('open');
+  setWorkspaceStatus(`Export queued: ${filename}`);
+  setTimeout(() => {
+    URL.revokeObjectURL(a.href);
+    a.remove();
+  }, 1000);
 }
 function currentExportPayload(){
   return {
     generated: new Date().toISOString(),
     version: 'khazar_digital_twin_v2',
     stakeholderMode: V2_STATE.mode,
+    workspaceView: V2_STATE.view,
     forecastDay: V2_STATE.forecastDay,
     tile: currentTile,
+    visibleLayers: Object.fromEntries(Object.entries(V2_LAYER_GROUPS).map(([key, group]) => [key, map.hasLayer(group)])),
     calibration: V2_STATE.calibration ? {name: V2_STATE.calibration.name, rows: V2_STATE.calibration.rows, errors: V2_STATE.calibration.errors} : null,
     dataSources: V2_SOURCES,
     scenarioA: scenarioSnapshot(document.getElementById('scenario-a')?.value || 'baseline'),
@@ -1842,7 +2231,12 @@ function exportDashboardPNG(){
     const a = document.createElement('a');
     a.download = 'khazar_v2_dashboard_summary.png';
     a.href = canvas.toDataURL('image/png');
+    a.style.display = 'none';
+    document.body.appendChild(a);
     a.click();
+    a.remove();
+    document.getElementById('v2-export-menu')?.classList.remove('open');
+    setWorkspaceStatus('Export queued: khazar_v2_dashboard_summary.png');
   };
   img.src = url;
 }
@@ -1865,8 +2259,34 @@ document.addEventListener('click', event => {
   const menu = document.getElementById('v2-export-menu');
   if(menu && menu.classList.contains('open') && !event.target.closest('.v2-export-menu') && !event.target.closest('.v2-export-primary')) menu.classList.remove('open');
 });
-setStakeholderMode('exec');
-renderCalibrationStatus();
+function initV2(){
+  syncLayerButtons();
+  renderDemoCard();
+  renderCompareMode();
+  switchView(V2_STATE.view, document.querySelector(`.nav-btn[data-view="${V2_STATE.view}"]`));
+  renderCalibrationStatus();
+  updateV2Audit();
+  window.KhazarV2 = {
+    state: V2_STATE,
+    setStakeholderMode,
+    switchView,
+    setLayerState,
+    toggleV2Layer,
+    toggleCompareMode,
+    togglePresentationMode,
+    exportSetupJSON,
+    exportResearchPack,
+    exportSourceManifestCSV,
+    exportForecastCSV,
+    exportCompareJSON,
+    exportCompareCSV,
+    currentExportPayload,
+    parseCSV,
+    normaliseCalibration
+  };
+  setTimeout(() => map.invalidateSize(), 80);
+}
+initV2();
 
 // ════════════════════════════════════════════
 // CHARTS
