@@ -465,6 +465,42 @@ header {
 }
 .v2-source-meta { font-family: var(--mono); font-size: 8px; color: var(--text3); }
 .v2-source-body { font-size: 10px; color: var(--text2); line-height: 1.35; }
+.v2-authority-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.v2-authority-card {
+  border: 1px solid var(--edge); border-radius: 6px; background: var(--panel2);
+  padding: 8px; min-width: 0;
+}
+.v2-authority-k {
+  font-family: var(--mono); font-size: 7px; color: var(--text3);
+  text-transform: uppercase;
+}
+.v2-authority-v { margin-top: 4px; font-size: 14px; font-weight: 700; color: var(--text); }
+.v2-authority-note { margin-top: 3px; font-size: 9px; color: var(--text2); line-height: 1.35; }
+.v2-method-stack { display: grid; gap: 7px; }
+.v2-method-step {
+  display: grid; grid-template-columns: 22px 1fr; gap: 8px; align-items: start;
+  border: 1px solid var(--edge); border-radius: 6px; padding: 8px; background: var(--panel2);
+}
+.v2-method-num {
+  width: 22px; height: 22px; border-radius: 50%; background: var(--cyan); color: white;
+  display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 8px; font-weight: 700;
+}
+.v2-method-title { font-size: 11px; font-weight: 700; color: var(--text); }
+.v2-method-body { margin-top: 2px; font-size: 10px; color: var(--text2); line-height: 1.35; }
+.v2-feature-matrix { display: grid; gap: 5px; }
+.v2-feature-row {
+  display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 8px; align-items: center;
+  border-bottom: 1px solid var(--edge); padding: 6px 0;
+}
+.v2-feature-row:last-child { border-bottom: none; }
+.v2-feature-row strong { font-size: 10px; color: var(--text); }
+.v2-feature-row span { font-family: var(--mono); font-size: 8px; color: var(--cyan); text-align: right; }
+.v2-source-link { color: var(--cyan); text-decoration: none; font-family: var(--mono); font-size: 8px; }
+.v2-source-link:hover { text-decoration: underline; }
+.v2-export-wide {
+  width: 100%; justify-content: center; display: flex; margin-top: 8px;
+  color: #fff; background: linear-gradient(135deg, var(--cyan), var(--green));
+}
 .v2-status { font-family: var(--mono); font-size: 8px; color: var(--text3); margin-top: 6px; line-height: 1.45; }
 .v2-status.ok { color: var(--green); }
 .v2-status.warn { color: var(--amber); }
@@ -613,6 +649,33 @@ header {
           <div class="v2-readout-k">Model Fit</div>
           <div class="v2-readout-v" id="cal-fit">Base</div>
           <div class="v2-readout-note" id="cal-fit-note">Baseline overlay active</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- V2 REGIONAL RESEARCH AUTHORITY -->
+    <div class="section" data-tier="ops">
+      <div class="sec-label">Regional Research Authority</div>
+      <div class="v2-authority-grid">
+        <div class="v2-authority-card">
+          <div class="v2-authority-k">Spatial Scope</div>
+          <div class="v2-authority-v">5 states</div>
+          <div class="v2-authority-note">Caspian basin, coast, delta and offshore infrastructure context.</div>
+        </div>
+        <div class="v2-authority-card">
+          <div class="v2-authority-k">Open Feeds</div>
+          <div class="v2-authority-v">10</div>
+          <div class="v2-authority-note">Satellite, climate, river, bathymetry and infrastructure sources.</div>
+        </div>
+        <div class="v2-authority-card">
+          <div class="v2-authority-k">Research Layers</div>
+          <div class="v2-authority-v">6</div>
+          <div class="v2-authority-note">Hydrology, climate, ecology, energy, coastline and sovereignty.</div>
+        </div>
+        <div class="v2-authority-card">
+          <div class="v2-authority-k">Export Grade</div>
+          <div class="v2-authority-v">Audit</div>
+          <div class="v2-authority-note">Source manifest, scenario state and calibration metadata.</div>
         </div>
       </div>
     </div>
@@ -828,6 +891,8 @@ header {
 
   <div class="v2-export-menu" id="v2-export-menu" aria-label="Export options">
     <button onclick="exportSetupJSON()">Current Setup JSON</button>
+    <button onclick="exportResearchPack()">Research Pack JSON</button>
+    <button onclick="exportSourceManifestCSV()">Source Manifest CSV</button>
     <button onclick="exportForecastCSV()">Chart Forecast CSV</button>
     <button onclick="exportDashboardPNG()">Dashboard PNG</button>
     <button onclick="exportCompareJSON()">Comparison JSON</button>
@@ -1050,6 +1115,55 @@ header {
       </div>
     </div>
 
+    <!-- V2 TECHNICAL BACKGROUND -->
+    <div class="section" data-tier="technical">
+      <div class="sec-label">Technical Background</div>
+      <div class="v2-method-stack">
+        <div class="v2-method-step">
+          <div class="v2-method-num">1</div>
+          <div>
+            <div class="v2-method-title">Lake-basin water balance framing</div>
+            <div class="v2-method-body">Sea-level stress is interpreted from endorheic-basin controls: river inflow, evaporation forcing, precipitation, wind setup and shoreline hypsometry.</div>
+          </div>
+        </div>
+        <div class="v2-method-step">
+          <div class="v2-method-num">2</div>
+          <div>
+            <div class="v2-method-title">Remote-sensing evidence separation</div>
+            <div class="v2-method-body">Optical, thermal, altimetry, bathymetry and coastline layers remain separate until the export/audit stage, reducing hidden model mixing.</div>
+          </div>
+        </div>
+        <div class="v2-method-step">
+          <div class="v2-method-num">3</div>
+          <div>
+            <div class="v2-method-title">Calibration overlay model</div>
+            <div class="v2-method-body">Uploaded observations are validated against a fixed metric schema and added as an overlay, preserving the original data layout and baseline interpretation.</div>
+          </div>
+        </div>
+        <div class="v2-method-step">
+          <div class="v2-method-num">4</div>
+          <div>
+            <div class="v2-method-title">Scenario delta comparison</div>
+            <div class="v2-method-body">Compare mode reports deltas in water level, surface area, inflow health, alert severity and confidence from the same live state.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- V2 FLAGSHIP CAPABILITY MATRIX -->
+    <div class="section" data-tier="ops">
+      <div class="sec-label">Research Capability Matrix</div>
+      <div class="v2-feature-matrix">
+        <div class="v2-feature-row"><strong>Caspian / Khazar regional atlas</strong><span>live map layers</span></div>
+        <div class="v2-feature-row"><strong>Hydroclimate evidence chain</strong><span>ERA5 + GloFAS</span></div>
+        <div class="v2-feature-row"><strong>Ecology and bloom monitoring</strong><span>OLCI + MODIS</span></div>
+        <div class="v2-feature-row"><strong>Coastline recession analytics</strong><span>Landsat + bathymetry</span></div>
+        <div class="v2-feature-row"><strong>Energy/infrastructure context</strong><span>OSM + OSINT</span></div>
+        <div class="v2-feature-row"><strong>Audit-ready research exports</strong><span>JSON + CSV + PNG</span></div>
+      </div>
+      <button class="v2-action-btn v2-export-wide" onclick="exportResearchPack()">Export Research Pack</button>
+    </div>
+
     <!-- 7-DAY FORECAST -->
     <div class="section">
       <div class="sec-label">7-Day AI Forecast</div>
@@ -1216,6 +1330,20 @@ header {
           </div>
           <span style="font-family:var(--mono);font-size:8px;color:var(--amber);">PARTNER</span>
         </div>
+      </div>
+    </div>
+
+    <!-- V2 CITABLE SOURCE LINKS -->
+    <div class="section" data-tier="technical">
+      <div class="sec-label">Citable Source Registry</div>
+      <div class="v2-list">
+        <div class="v2-row"><strong>Copernicus Marine</strong><a class="v2-source-link" href="https://data.marine.copernicus.eu/" target="_blank" rel="noopener">data.marine.copernicus.eu</a></div>
+        <div class="v2-row"><strong>ERA5 / CDS</strong><a class="v2-source-link" href="https://cds.climate.copernicus.eu/" target="_blank" rel="noopener">cds.climate.copernicus.eu</a></div>
+        <div class="v2-row"><strong>NASA OB.DAAC</strong><a class="v2-source-link" href="https://www.earthdata.nasa.gov/centers/ob-daac" target="_blank" rel="noopener">earthdata.nasa.gov</a></div>
+        <div class="v2-row"><strong>USGS Landsat</strong><a class="v2-source-link" href="https://www.usgs.gov/land-resources/nli/landsat/landsat-data-access" target="_blank" rel="noopener">usgs.gov/landsat</a></div>
+        <div class="v2-row"><strong>EMODnet Bathymetry</strong><a class="v2-source-link" href="https://emodnet.ec.europa.eu/en/bathymetry" target="_blank" rel="noopener">emodnet.ec.europa.eu</a></div>
+        <div class="v2-row"><strong>GloFAS / CEMS</strong><a class="v2-source-link" href="https://confluence.ecmwf.int/display/CEMS/Data+Access" target="_blank" rel="noopener">confluence.ecmwf.int</a></div>
+        <div class="v2-row"><strong>GRDC</strong><a class="v2-source-link" href="https://grdc.bafg.de/data/data_portal/" target="_blank" rel="noopener">grdc.bafg.de</a></div>
       </div>
     </div>
 
@@ -1433,16 +1561,16 @@ document.getElementById('last-refresh').textContent = new Date().toUTCString().s
 // ════════════════════════════════════════════
 const V2_METRICS = ['water_level_m','surface_area_km2','volga_inflow_km3yr','salinity_ppt','sst_c','chlorophyll_index'];
 const V2_SOURCES = [
-  {name:'Copernicus Marine Data Store', url:'https://data.marine.copernicus.eu/', role:'Ocean physics and biogeochemistry; CMDS API / NetCDF / Zarr'},
-  {name:'Copernicus Marine Toolbox APIs', url:'https://help.marine.copernicus.eu/en/articles/4794731-which-apis-are-provided', role:'CMDS, WMTS and CSW service integration'},
-  {name:'Copernicus Climate Data Store ERA5', url:'https://cds.climate.copernicus.eu/', role:'Hourly atmospheric reanalysis forcing'},
-  {name:'Copernicus Data Space Sentinel-3 OLCI', url:'https://dataspace.copernicus.eu/', role:'Ocean colour, water geophysical products and Sentinel Hub APIs'},
-  {name:'NASA Ocean Biology DAAC', url:'https://www.earthdata.nasa.gov/centers/ob-daac', role:'MODIS and partner ocean colour archive'},
-  {name:'USGS Landsat Data Access', url:'https://www.usgs.gov/land-resources/nli/landsat/landsat-data-access', role:'Landsat 8/9 coastline and exposed lakebed change'},
-  {name:'EMODnet Bathymetry', url:'https://emodnet.ec.europa.eu/en/bathymetry', role:'Digital terrain model, OGC WMS/WFS/WCS bathymetry services'},
-  {name:'CEMS GloFAS', url:'https://confluence.ecmwf.int/display/CEMS/Data+Access', role:'Hydrological reanalysis and forecasts for river discharge'},
-  {name:'GRDC Data Portal', url:'https://grdc.bafg.de/data/data_portal/', role:'Observed river discharge archive'},
-  {name:'OpenStreetMap Overpass API', url:'https://overpass-api.de/', role:'Ports, roads, energy and coastal infrastructure context'}
+  {name:'Copernicus Marine Data Store', url:'https://data.marine.copernicus.eu/', domain:'ocean', cadence:'daily / forecast / reanalysis', role:'Ocean physics and biogeochemistry; CMDS API / NetCDF / Zarr', variables:'sea level, SST, salinity, currents, biogeochemistry'},
+  {name:'Copernicus Marine Toolbox APIs', url:'https://help.marine.copernicus.eu/en/articles/4794731-which-apis-are-provided', domain:'interoperability', cadence:'on demand', role:'CMDS, WMTS and CSW service integration', variables:'metadata, tiles, catalogue services'},
+  {name:'Copernicus Climate Data Store ERA5', url:'https://cds.climate.copernicus.eu/', domain:'climate', cadence:'hourly', role:'Hourly atmospheric reanalysis forcing', variables:'wind, air temperature, precipitation, evaporation proxies'},
+  {name:'Copernicus Data Space Sentinel-3 OLCI', url:'https://dataspace.copernicus.eu/', domain:'optical', cadence:'orbital revisit', role:'Ocean colour, water geophysical products and Sentinel Hub APIs', variables:'chlorophyll, turbidity, algal pigments, SST companion layers'},
+  {name:'NASA Ocean Biology DAAC', url:'https://www.earthdata.nasa.gov/centers/ob-daac', domain:'optical', cadence:'daily to monthly composites', role:'MODIS and partner ocean colour archive', variables:'chlorophyll, ocean colour, L3/L4 products'},
+  {name:'USGS Landsat Data Access', url:'https://www.usgs.gov/land-resources/nli/landsat/landsat-data-access', domain:'land change', cadence:'16-day mission repeat', role:'Landsat 8/9 coastline and exposed lakebed change', variables:'coastline, exposed lakebed, land cover, thermal indicators'},
+  {name:'EMODnet Bathymetry', url:'https://emodnet.ec.europa.eu/en/bathymetry', domain:'bathymetry', cadence:'multi-year DTM releases', role:'Digital terrain model, OGC WMS/WFS/WCS bathymetry services', variables:'depth, terrain model, coastlines, baselines'},
+  {name:'CEMS GloFAS', url:'https://confluence.ecmwf.int/display/CEMS/Data+Access', domain:'hydrology', cadence:'forecast / reanalysis', role:'Hydrological reanalysis and forecasts for river discharge', variables:'river discharge, flood forecasts, seasonal hydrology'},
+  {name:'GRDC Data Portal', url:'https://grdc.bafg.de/data/data_portal/', domain:'hydrology', cadence:'station archive', role:'Observed river discharge archive', variables:'gauge discharge, historical runoff'},
+  {name:'OpenStreetMap Overpass API', url:'https://overpass-api.de/', domain:'infrastructure', cadence:'community updated', role:'Ports, roads, energy and coastal infrastructure context', variables:'ports, pipelines, platforms, roads, settlements'}
 ];
 const V2_SCENARIOS = {
   baseline: {label:'Baseline forecast', wl:-28.6, area:346, inflow:82, alert:68, confidence:84},
@@ -1635,6 +1763,47 @@ function exportForecastCSV(){
   const c = [-28.62,-28.65,-28.68,-28.66,-28.63,-28.61,-28.57];
   for(let i=0;i<7;i++) rows.push([i+1, days[i+1] || days[i], a[i], b[i], c[i]]);
   downloadBlob('khazar_v2_forecast_series.csv', rows.map(r => r.join(',')).join('\n'), 'text/csv');
+}
+function exportSourceManifestCSV(){
+  const rows = [['name','domain','cadence','variables','role','url']];
+  V2_SOURCES.forEach(s => rows.push([s.name, s.domain, s.cadence, s.variables, s.role, s.url].map(v => `"${String(v).replace(/"/g,'""')}"`)));
+  downloadBlob('khazar_v2_source_manifest.csv', rows.map(r => r.join(',')).join('\n'), 'text/csv');
+}
+function exportResearchPack(){
+  const p = currentExportPayload();
+  const pack = {
+    generated: p.generated,
+    title: 'Khazar Digital Twin v2 Research Pack',
+    regionalScope: {
+      names: ['Khazar', 'Caspian Sea', 'Xazar', 'Hazar'],
+      littoralStates: ['Azerbaijan','Kazakhstan','Iran','Russia','Turkmenistan'],
+      center: '41.0N, 51.5E',
+      maxDepthM: 1025,
+      coastlineKm: 6380
+    },
+    researchQuestions: [
+      'How is Caspian/Khazar water-level decline distributed across shallow northern and deeper southern basins?',
+      'Which river inflow, climate and evaporation signals best explain short-term forecast stress?',
+      'Where do coastline recession, energy infrastructure and ecological alert layers overlap?',
+      'How do uploaded gauge or field observations alter confidence without replacing the baseline layout?'
+    ],
+    methodology: [
+      'Keep measured or externally sourced layers separate until export/audit stage.',
+      'Use calibration uploads as overlays with schema validation and unsupported-metric warnings.',
+      'Compare scenarios as deltas from one live browser state so stakeholders can inspect assumptions.',
+      'Export source manifests and setup state alongside visual outputs for reproducible review.'
+    ],
+    sourceManifest: V2_SOURCES,
+    activeState: p,
+    acceptanceChecks: [
+      'Map renders with Leaflet layers.',
+      'Four base charts render with Chart.js.',
+      'Calibration accepts CSV and JSON observations for supported metric names.',
+      'Compare mode exports both scenario states.',
+      'Source manifest cites official open-data portals.'
+    ]
+  };
+  downloadBlob('khazar_v2_research_pack.json', JSON.stringify(pack, null, 2), 'application/json');
 }
 function exportCompareJSON(){
   const p = currentExportPayload();
