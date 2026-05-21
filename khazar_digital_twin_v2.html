@@ -1191,6 +1191,501 @@ header, .left-panel, .right-panel, .globe-area, .bottom-bar {
   .sim-btn { display: none; }
   .sim-btn#sim-play-btn { display: inline-flex; }
 }
+
+/* ════════════════════════════════════════════════════
+   V2 ANDREW-STYLE WORKSPACE TOOLS
+   Hamburger menu, command search, custom board, notes,
+   and keyboard help adapted to the Khazar research flow.
+════════════════════════════════════════════════════ */
+.khz-menu-launch {
+  min-width: 78px;
+  justify-content: center;
+}
+.khz-popup {
+  position: fixed;
+  top: 88px;
+  right: 28px;
+  z-index: 1120;
+  display: none;
+  width: min(330px, calc(100vw - 28px));
+  padding: 8px;
+  border: 1px solid rgba(14,86,116,0.16);
+  border-radius: 12px;
+  background: rgba(255,255,255,0.99);
+  box-shadow: 0 24px 70px rgba(15,69,95,0.18);
+}
+.khz-popup.open { display: grid; gap: 6px; }
+.khz-popup-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 6px 8px 8px;
+  border-bottom: 1px solid rgba(14,86,116,0.10);
+}
+.khz-popup-title {
+  font-weight: 800;
+  color: #102433;
+  font-size: 13px;
+}
+.khz-popup-sub {
+  margin-top: 2px;
+  font-size: 11px;
+  color: #6b8391;
+}
+.khz-popup-close, .khz-icon-btn {
+  border: 1px solid rgba(14,86,116,0.14);
+  border-radius: 8px;
+  background: #f7fbfd;
+  color: #27485b;
+  cursor: pointer;
+  font: 800 12px var(--ui-font);
+  min-width: 30px;
+  height: 30px;
+}
+.khz-popup-close:hover, .khz-icon-btn:hover {
+  background: #eaf6fb;
+  color: #087fa7;
+  border-color: rgba(8,127,167,0.25);
+}
+.khz-popup button.khz-menu-item {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px;
+  align-items: center;
+  text-align: left;
+  width: 100%;
+  border: 1px solid transparent;
+  border-radius: 9px;
+  padding: 9px 10px;
+  background: transparent;
+  color: #27485b;
+  cursor: pointer;
+  font: 700 12px var(--ui-font);
+}
+.khz-popup button.khz-menu-item:hover {
+  background: #f1f8fb;
+  border-color: rgba(14,86,116,0.12);
+  color: #087fa7;
+}
+.khz-menu-item small {
+  display: block;
+  margin-top: 2px;
+  color: #6b8391;
+  font: 500 10px var(--ui-font);
+}
+.khz-menu-key {
+  border: 1px solid rgba(14,86,116,0.13);
+  border-radius: 6px;
+  background: #fff;
+  color: #416274;
+  padding: 3px 6px;
+  font: 700 10px var(--mono);
+  white-space: nowrap;
+}
+.khz-label-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.khz-info-dot {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 1px solid rgba(8,127,167,0.22);
+  background: #fff;
+  color: #087fa7;
+  cursor: pointer;
+  font: 800 11px var(--ui-font);
+  line-height: 1;
+}
+.khz-info-dot:hover { background: #eaf6fb; }
+.khz-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1300;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  background: rgba(7,30,43,0.26);
+  backdrop-filter: blur(3px);
+}
+.khz-modal-backdrop.open { display: flex; }
+.khz-modal {
+  width: min(980px, calc(100vw - 36px));
+  max-height: min(760px, calc(100dvh - 36px));
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid rgba(14,86,116,0.16);
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 34px 90px rgba(7,30,43,0.24);
+}
+.khz-modal.small { width: min(560px, calc(100vw - 36px)); }
+.khz-modal-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(14,86,116,0.10);
+  background: #fbfdfe;
+}
+.khz-modal-kicker {
+  font: 800 10px var(--mono);
+  color: #087fa7;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.khz-modal-title {
+  margin-top: 4px;
+  font-size: 18px;
+  font-weight: 800;
+  color: #102433;
+}
+.khz-modal-sub {
+  margin-top: 4px;
+  font-size: 12px;
+  color: #416274;
+  line-height: 1.4;
+}
+.khz-modal-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;
+  padding: 14px 16px 16px;
+}
+.khz-search-box {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px;
+  align-items: center;
+  border: 1px solid rgba(8,127,167,0.22);
+  border-radius: 12px;
+  padding: 8px 10px;
+  background: #f7fbfd;
+}
+.khz-search-box input {
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: #102433;
+  font: 700 16px var(--ui-font);
+}
+.khz-search-hint {
+  color: #6b8391;
+  font: 700 10px var(--mono);
+  white-space: nowrap;
+}
+.khz-search-results {
+  display: grid;
+  gap: 7px;
+  margin-top: 12px;
+}
+.khz-search-result {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+  align-items: center;
+  width: 100%;
+  text-align: left;
+  border: 1px solid rgba(14,86,116,0.10);
+  border-radius: 10px;
+  background: #fff;
+  padding: 10px 11px;
+  cursor: pointer;
+}
+.khz-search-result:hover, .khz-search-result.active {
+  background: #eef8fb;
+  border-color: rgba(8,127,167,0.24);
+}
+.khz-search-result strong {
+  display: block;
+  color: #102433;
+  font-size: 13px;
+}
+.khz-search-result span {
+  display: block;
+  margin-top: 2px;
+  color: #416274;
+  font-size: 11px;
+  line-height: 1.35;
+}
+.khz-search-result em {
+  font: 700 10px var(--mono);
+  color: #087fa7;
+  font-style: normal;
+  text-transform: uppercase;
+}
+.khz-shortcut-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+.khz-shortcut-row {
+  display: grid;
+  grid-template-columns: 110px 1fr;
+  gap: 10px;
+  align-items: center;
+  border: 1px solid rgba(14,86,116,0.10);
+  border-radius: 10px;
+  padding: 9px 10px;
+  background: #f7fbfd;
+}
+.khz-shortcut-row code {
+  color: #087fa7;
+  font: 800 11px var(--mono);
+}
+.khz-shortcut-row span {
+  color: #27485b;
+  font-size: 12px;
+}
+.khz-info-list {
+  display: grid;
+  gap: 9px;
+}
+.khz-info-card {
+  border: 1px solid rgba(14,86,116,0.10);
+  border-radius: 10px;
+  background: #f7fbfd;
+  padding: 10px 11px;
+}
+.khz-info-card strong {
+  display: block;
+  color: #102433;
+  font-size: 13px;
+}
+.khz-info-card span {
+  display: block;
+  margin-top: 4px;
+  color: #416274;
+  font-size: 12px;
+  line-height: 1.45;
+}
+.khz-board-modal { width: min(1180px, calc(100vw - 28px)); }
+.khz-board-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+.khz-board-actions button, .khz-board-picker button {
+  border: 1px solid rgba(14,86,116,0.14);
+  border-radius: 8px;
+  background: #fff;
+  color: #27485b;
+  padding: 7px 9px;
+  font: 800 11px var(--ui-font);
+  cursor: pointer;
+}
+.khz-board-actions button:hover, .khz-board-picker button:hover {
+  background: #eaf6fb;
+  color: #087fa7;
+}
+.khz-board-picker {
+  display: none;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 7px;
+  margin-bottom: 10px;
+}
+.khz-board-picker.open { display: grid; }
+.khz-board-picker button {
+  text-align: left;
+  min-height: 56px;
+}
+.khz-board-picker strong {
+  display: block;
+  color: #102433;
+  font-size: 12px;
+}
+.khz-board-picker span {
+  display: block;
+  margin-top: 3px;
+  color: #6b8391;
+  font-size: 10px;
+  line-height: 1.25;
+}
+.khz-board-stage {
+  position: relative;
+  height: min(560px, calc(100dvh - 236px));
+  min-height: 360px;
+  overflow: auto;
+  border: 1px solid rgba(14,86,116,0.12);
+  border-radius: 12px;
+  background:
+    linear-gradient(rgba(8,127,167,0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(8,127,167,0.055) 1px, transparent 1px),
+    #f7fbfd;
+  background-size: calc(100% / 12) 70px, calc(100% / 12) 70px;
+}
+.khz-board-empty {
+  position: absolute;
+  inset: 18px;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  color: #416274;
+  border: 1px dashed rgba(8,127,167,0.28);
+  border-radius: 12px;
+  background: rgba(255,255,255,0.70);
+}
+.khz-board-empty strong {
+  display: block;
+  margin-bottom: 5px;
+  color: #102433;
+  font-size: 16px;
+}
+.khz-board-tile {
+  position: absolute;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  min-width: 150px;
+  min-height: 116px;
+  border: 1px solid rgba(14,86,116,0.15);
+  border-radius: 12px;
+  background: rgba(255,255,255,0.98);
+  box-shadow: 0 16px 38px rgba(15,69,95,0.12);
+  overflow: hidden;
+}
+.khz-board-tile.dragging {
+  opacity: 0.9;
+  box-shadow: 0 26px 60px rgba(15,69,95,0.20);
+}
+.khz-board-tile-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 9px 10px;
+  border-bottom: 1px solid rgba(14,86,116,0.09);
+  background: #fbfdfe;
+  cursor: grab;
+}
+.khz-board-tile-title {
+  min-width: 0;
+  color: #102433;
+  font-weight: 800;
+  font-size: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.khz-board-tile-head button {
+  width: 24px;
+  height: 24px;
+  border: 0;
+  border-radius: 6px;
+  background: #eef5f8;
+  color: #416274;
+  cursor: pointer;
+  font-weight: 900;
+}
+.khz-board-tile-body {
+  min-height: 0;
+  overflow: auto;
+  padding: 10px;
+}
+.khz-board-stat {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px;
+  padding: 6px 0;
+  border-bottom: 1px solid rgba(14,86,116,0.08);
+  font-size: 12px;
+}
+.khz-board-stat:last-child { border-bottom: 0; }
+.khz-board-stat span { color: #416274; }
+.khz-board-stat strong {
+  color: #087fa7;
+  font-family: var(--mono);
+  font-size: 11px;
+}
+.khz-board-text {
+  color: #416274;
+  font-size: 12px;
+  line-height: 1.45;
+}
+.khz-board-resize {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 18px;
+  height: 18px;
+  cursor: nwse-resize;
+}
+.khz-board-resize::after {
+  content: "";
+  position: absolute;
+  right: 5px;
+  bottom: 5px;
+  width: 8px;
+  height: 8px;
+  border-right: 2px solid rgba(8,127,167,0.42);
+  border-bottom: 2px solid rgba(8,127,167,0.42);
+}
+.khz-quick-actions {
+  position: fixed;
+  right: 18px;
+  bottom: calc(var(--chart-band) + 24px);
+  z-index: 850;
+  display: grid;
+  gap: 6px;
+}
+.khz-quick-actions button {
+  width: 38px;
+  height: 38px;
+  border: 1px solid rgba(14,86,116,0.14);
+  border-radius: 11px;
+  background: rgba(255,255,255,0.97);
+  color: #087fa7;
+  cursor: pointer;
+  box-shadow: 0 14px 30px rgba(15,69,95,0.12);
+  font: 900 13px var(--ui-font);
+}
+.khz-quick-actions button:hover {
+  background: #eaf6fb;
+  transform: translateY(-1px);
+}
+.presentation-mode .khz-quick-actions { display: none; }
+@media (max-width: 1279px) {
+  .khz-popup {
+    top: 64px;
+    right: 14px;
+    left: 14px;
+    width: auto;
+  }
+  .khz-modal-backdrop { padding: 10px; }
+  .khz-modal {
+    width: calc(100vw - 20px);
+    max-height: calc(100dvh - 20px);
+  }
+  .khz-board-picker { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .khz-board-stage {
+    height: calc(100dvh - 220px);
+    min-height: 340px;
+  }
+  .khz-shortcut-grid { grid-template-columns: 1fr; }
+  .khz-quick-actions {
+    right: 10px;
+    bottom: calc(32dvh + 18px);
+  }
+  .khz-quick-actions button {
+    width: 34px;
+    height: 34px;
+    border-radius: 9px;
+  }
+}
+@media (max-width: 430px) {
+  .khz-board-picker { grid-template-columns: 1fr; }
+  .khz-board-actions { max-height: 80px; overflow: auto; }
+  .khz-board-stage { height: calc(100dvh - 240px); }
+  .khz-search-hint { display: none; }
+  .khz-shortcut-row { grid-template-columns: 82px 1fr; }
+}
 </style>
 </head>
 <body>
@@ -1256,7 +1751,7 @@ header, .left-panel, .right-panel, .globe-area, .bottom-bar {
 
     <!-- V2 CALIBRATION UPLOAD -->
     <div class="section" data-tier="evidence">
-      <div class="sec-label">Calibration Upload</div>
+      <div class="sec-label khz-label-row"><span>Calibration Upload</span><button class="khz-info-dot" onclick="showKhzInfo('calibration')" aria-label="Calibration guide">i</button></div>
       <div class="v2-note">Upload CSV or JSON observations to calibrate a visible model overlay. The original Khazar baseline remains unchanged.</div>
       <div style="display:flex;gap:6px;margin-top:8px;align-items:center;">
         <label for="cal-upload" class="v2-upload-btn">Upload CSV/JSON</label>
@@ -1389,7 +1884,7 @@ header, .left-panel, .right-panel, .globe-area, .bottom-bar {
 
     <!-- MAP LAYERS -->
     <div class="section" data-tier="ops">
-      <div class="sec-label">Map Layers</div>
+      <div class="sec-label khz-label-row"><span>Map Layers</span><button class="khz-info-dot" onclick="showKhzInfo('layers')" aria-label="Layer guide">i</button></div>
       <div class="tile-row">
         <div class="tile-pill active" data-tile="satellite" onclick="setTile('satellite',this)">SATELLITE</div>
         <div class="tile-pill" data-tile="osm" onclick="setTile('osm',this)">OSM</div>
@@ -1515,6 +2010,9 @@ header, .left-panel, .right-panel, .globe-area, .bottom-bar {
     <button class="v2-mode-btn" data-mode="technical" onclick="setStakeholderMode('technical')">Technical</button>
     <button class="v2-action-btn v2-drawer-btn" onclick="toggleV2Drawer('left')">Indicators</button>
     <button class="v2-action-btn v2-drawer-btn" onclick="toggleV2Drawer('right')">Methods</button>
+    <button class="v2-action-btn khz-menu-launch" id="khz-menu-toggle" onclick="toggleKhazarMenu(event)" aria-haspopup="true" aria-expanded="false">☰ Menu</button>
+    <button class="v2-action-btn" id="khz-board-toggle" onclick="openKhzCustomBoard()">Custom Board</button>
+    <button class="v2-action-btn" onclick="openKhzSearch()">Search</button>
     <button class="v2-action-btn" id="compare-toggle" onclick="toggleCompareMode()">Compare</button>
     <button class="v2-action-btn" id="presentation-toggle" onclick="togglePresentationMode()">Present</button>
     <button class="v2-action-btn v2-export-primary" onclick="toggleExportMenu()">Export Suite</button>
@@ -1528,6 +2026,135 @@ header, .left-panel, .right-panel, .globe-area, .bottom-bar {
     <button onclick="exportDashboardPNG()">Dashboard PNG</button>
     <button onclick="exportCompareJSON()">Comparison JSON</button>
     <button onclick="exportCompareCSV()">Comparison CSV</button>
+    <button onclick="showKhzInfo('exports')">Export Guide / Metadata</button>
+  </div>
+
+  <!-- V2 HAMBURGER WORKSPACE MENU -->
+  <div class="khz-popup" id="khz-app-menu" role="menu" aria-label="Khazar workspace menu">
+    <div class="khz-popup-head">
+      <div>
+        <div class="khz-popup-title">Workspace Menu</div>
+        <div class="khz-popup-sub">Andrew-style board, search, help and guide notes.</div>
+      </div>
+      <button class="khz-popup-close" onclick="closeKhazarMenu()" aria-label="Close workspace menu">×</button>
+    </div>
+    <button class="khz-menu-item" onclick="openKhzCustomBoard()" role="menuitem">
+      <span>Custom Board<small>Pin the indicators, scenarios and evidence cards you need.</small></span>
+      <span class="khz-menu-key">B</span>
+    </button>
+    <button class="khz-menu-item" onclick="openKhzSearch()" role="menuitem">
+      <span>Search / Commands<small>Jump to layers, modes, exports, views and research sections.</small></span>
+      <span class="khz-menu-key">Ctrl K</span>
+    </button>
+    <button class="khz-menu-item" onclick="toggleKhzKeyboardHelp(true)" role="menuitem">
+      <span>Keyboard Shortcuts<small>Fast navigation for presentation and research use.</small></span>
+      <span class="khz-menu-key">?</span>
+    </button>
+    <button class="khz-menu-item" onclick="showKhzInfo('guide')" role="menuitem">
+      <span>Information Notes<small>Concise user guide for calibration, layers, compare and exports.</small></span>
+      <span class="khz-menu-key">I</span>
+    </button>
+    <button class="khz-menu-item" onclick="toggleV2Drawer('right'); closeKhazarMenu();" role="menuitem">
+      <span>Methods / Evidence<small>Open technical workflow, source registry and assumptions.</small></span>
+      <span class="khz-menu-key">G</span>
+    </button>
+    <button class="khz-menu-item" onclick="openV2ExportFromMenu(event)" role="menuitem">
+      <span>Export Suite<small>Download JSON, CSV, comparison and PNG research outputs.</small></span>
+      <span class="khz-menu-key">E</span>
+    </button>
+  </div>
+
+  <!-- V2 CUSTOM BOARD -->
+  <div class="khz-modal-backdrop" id="khz-board-modal" role="dialog" aria-modal="true" aria-labelledby="khz-board-title">
+    <div class="khz-modal khz-board-modal">
+      <div class="khz-modal-head">
+        <div>
+          <div class="khz-modal-kicker">Custom research board</div>
+          <div class="khz-modal-title" id="khz-board-title">Build a board for your Khazar question</div>
+          <div class="khz-modal-sub">Drag, resize, add and persist board tiles. This is a presentation/research layer; the original data layout remains untouched.</div>
+        </div>
+        <div class="khz-board-actions">
+          <button onclick="toggleKhzTilePicker()">Add tile</button>
+          <button onclick="optimiseKhzBoard()">Optimise layout</button>
+          <button onclick="resetKhzBoard()">Reset board</button>
+          <button onclick="clearKhzBoard()">Clear</button>
+          <button onclick="showKhzInfo('board')">Guide</button>
+          <button class="khz-icon-btn" onclick="closeKhzCustomBoard()" aria-label="Close custom board">×</button>
+        </div>
+      </div>
+      <div class="khz-modal-body">
+        <div class="khz-board-picker" id="khz-board-picker" aria-label="Add board tile"></div>
+        <div class="khz-board-stage" id="khz-board-stage">
+          <div class="khz-board-empty" id="khz-board-empty">
+            <div>
+              <strong>No board tiles yet</strong>
+              <span>Use Add tile or press B, then create a custom research board for a meeting, lecture or field note.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- V2 COMMAND SEARCH -->
+  <div class="khz-modal-backdrop" id="khz-search-modal" role="dialog" aria-modal="true" aria-labelledby="khz-search-title">
+    <div class="khz-modal small">
+      <div class="khz-modal-head">
+        <div>
+          <div class="khz-modal-kicker">Command palette</div>
+          <div class="khz-modal-title" id="khz-search-title">Search Khazar v2</div>
+          <div class="khz-modal-sub">Type a layer, view, mode, export, source or tool name.</div>
+        </div>
+        <button class="khz-icon-btn" onclick="closeKhzSearch()" aria-label="Close search">×</button>
+      </div>
+      <div class="khz-modal-body">
+        <div class="khz-search-box">
+          <input id="khz-search-input" type="search" placeholder="Search commands, layers, sources..." autocomplete="off" oninput="renderKhzSearch(this.value)">
+          <span class="khz-search-hint">Enter to run</span>
+        </div>
+        <div class="khz-search-results" id="khz-search-results"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- V2 KEYBOARD SHORTCUTS -->
+  <div class="khz-modal-backdrop" id="khz-shortcuts-modal" role="dialog" aria-modal="true" aria-labelledby="khz-shortcuts-title">
+    <div class="khz-modal small">
+      <div class="khz-modal-head">
+        <div>
+          <div class="khz-modal-kicker">Keyboard</div>
+          <div class="khz-modal-title" id="khz-shortcuts-title">Shortcut map</div>
+          <div class="khz-modal-sub">Designed for live demos, projector mode and fast research navigation.</div>
+        </div>
+        <button class="khz-icon-btn" onclick="toggleKhzKeyboardHelp(false)" aria-label="Close shortcut help">×</button>
+      </div>
+      <div class="khz-modal-body">
+        <div class="khz-shortcut-grid" id="khz-shortcut-grid"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- V2 INFORMATION NOTES -->
+  <div class="khz-modal-backdrop" id="khz-info-modal" role="dialog" aria-modal="true" aria-labelledby="khz-info-title">
+    <div class="khz-modal small">
+      <div class="khz-modal-head">
+        <div>
+          <div class="khz-modal-kicker" id="khz-info-kicker">Guide</div>
+          <div class="khz-modal-title" id="khz-info-title">Information notes</div>
+          <div class="khz-modal-sub" id="khz-info-sub">Contextual guidance for the current workflow.</div>
+        </div>
+        <button class="khz-icon-btn" onclick="closeKhzInfo()" aria-label="Close information notes">×</button>
+      </div>
+      <div class="khz-modal-body">
+        <div class="khz-info-list" id="khz-info-body"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="khz-quick-actions" aria-label="Quick actions">
+    <button onclick="openKhzSearch()" title="Search / command palette">⌕</button>
+    <button onclick="openKhzCustomBoard()" title="Custom board">B</button>
+    <button onclick="toggleKhzKeyboardHelp(true)" title="Keyboard shortcuts">?</button>
   </div>
 
   <!-- HUD -->
@@ -1668,7 +2295,7 @@ header, .left-panel, .right-panel, .globe-area, .bottom-bar {
 
     <!-- V2 METHODS / EVIDENCE SUMMARY -->
     <div class="section v2-methods-panel" data-tier="exec">
-      <div class="sec-label">Methods / Evidence</div>
+      <div class="sec-label khz-label-row"><span>Methods / Evidence</span><button class="khz-info-dot" onclick="showKhzInfo('methods')" aria-label="Methods guide">i</button></div>
       <div class="v2-note">Research-grade mode keeps each evidence family traceable: source, variable, cadence, limitation and export metadata stay visible before interpretation.</div>
       <div class="v2-method-summary" style="margin-top:8px;">
         <div class="v2-method-card">
@@ -2030,7 +2657,7 @@ header, .left-panel, .right-panel, .globe-area, .bottom-bar {
 
     <!-- V2 EXPORT AUDIT -->
     <div class="section" data-tier="technical">
-      <div class="sec-label">Export Audit</div>
+      <div class="sec-label khz-label-row"><span>Export Audit</span><button class="khz-info-dot" onclick="showKhzInfo('exports')" aria-label="Export guide">i</button></div>
       <div class="v2-list">
         <div class="v2-row"><strong>Stakeholder mode</strong><span id="audit-mode">Executive</span></div>
         <div class="v2-row"><strong>Compare mode</strong><span id="audit-compare">Off</span></div>
@@ -2573,6 +3200,12 @@ function toggleExportMenu(){
   menu?.classList.toggle('open');
   setWorkspaceStatus(menu?.classList.contains('open') ? 'Export suite ready.' : 'Export suite closed.');
 }
+function openV2ExportFromMenu(event){
+  event?.stopPropagation();
+  closeKhazarMenu();
+  document.getElementById('v2-export-menu')?.classList.add('open');
+  setWorkspaceStatus('Export suite ready.');
+}
 function downloadBlob(filename, text, type){
   const blob = new Blob([text], {type});
   const a = document.createElement('a');
@@ -2598,6 +3231,7 @@ function currentExportPayload(){
     tile: currentTile,
     visibleLayers: Object.fromEntries(Object.entries(V2_LAYER_GROUPS).map(([key, group]) => [key, map.hasLayer(group)])),
     calibration: V2_STATE.calibration ? {name: V2_STATE.calibration.name, rows: V2_STATE.calibration.rows, errors: V2_STATE.calibration.errors} : null,
+    customBoard: typeof loadKhzBoard === 'function' ? loadKhzBoard() : [],
     methodEvidence: V2_METHOD_EVIDENCE,
     dataSources: V2_SOURCES.map(enrichV2Source),
     scenarioA: scenarioSnapshot(document.getElementById('scenario-a')?.value || 'baseline'),
@@ -2703,6 +3337,532 @@ function exportDashboardPNG(){
   };
   img.src = url;
 }
+
+// ════════════════════════════════════════════
+// V2 ANDREW-STYLE WORKSPACE TOOLS
+// ════════════════════════════════════════════
+const KHZ_BOARD_KEY = 'khazar_v2_custom_board';
+const KHZ_BOARD_COLS = 12;
+const KHZ_BOARD_ROW = 70;
+let KHZ_SEARCH_MATCHES = [];
+let KHZ_SEARCH_SELECTED = 0;
+
+function khzEscape(value){
+  return String(value ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[ch]));
+}
+function khzClamp(value, min, max){
+  return Math.max(min, Math.min(max, value));
+}
+function khzTileId(){
+  return `tile-${Date.now().toString(36)}-${Math.random().toString(36).slice(2,7)}`;
+}
+function khzBoardTile(type, x, y, w, h){
+  const spec = KHZ_BOARD_CATALOG[type] || KHZ_BOARD_CATALOG.indicators;
+  return {id: khzTileId(), type, x, y, w: w || spec.w, h: h || spec.h};
+}
+const KHZ_BOARD_CATALOG = {
+  indicators: {title:'Key Indicators', note:'Headline water level, area, inflow and confidence.', w:3, h:3},
+  forecast: {title:'Forecast Lens', note:'Current scenario snapshot and forecast day.', w:3, h:3},
+  layers: {title:'Layer State', note:'Visible map layers and active basemap.', w:3, h:3},
+  calibration: {title:'Calibration', note:'Upload status and accepted observation count.', w:3, h:3},
+  compare: {title:'Compare', note:'Scenario A/B deltas from live setup.', w:4, h:3},
+  methods: {title:'Methods', note:'Evidence families and model assumptions.', w:4, h:3},
+  sources: {title:'Source Registry', note:'Citable open-data workflow coverage.', w:4, h:3},
+  exports: {title:'Export Readiness', note:'Reproducible outputs and metadata contents.', w:3, h:3}
+};
+function defaultKhzBoard(){
+  return [
+    khzBoardTile('indicators', 0, 0, 3, 3),
+    khzBoardTile('forecast', 3, 0, 3, 3),
+    khzBoardTile('layers', 6, 0, 3, 3),
+    khzBoardTile('calibration', 9, 0, 3, 3),
+    khzBoardTile('compare', 0, 3, 4, 3),
+    khzBoardTile('methods', 4, 3, 4, 3),
+    khzBoardTile('sources', 8, 3, 4, 3)
+  ];
+}
+function loadKhzBoard(){
+  try {
+    const raw = localStorage.getItem(KHZ_BOARD_KEY);
+    if(raw === null) return defaultKhzBoard();
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed.filter(tile => KHZ_BOARD_CATALOG[tile.type]) : defaultKhzBoard();
+  } catch {
+    return defaultKhzBoard();
+  }
+}
+function saveKhzBoard(board){
+  localStorage.setItem(KHZ_BOARD_KEY, JSON.stringify(board));
+}
+function khzTileOverlaps(a, b){
+  return a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y;
+}
+function findKhzBoardSlot(board, w, h){
+  for(let y = 0; y < 16; y++){
+    for(let x = 0; x <= KHZ_BOARD_COLS - w; x++){
+      const test = {x, y, w, h};
+      if(!board.some(tile => khzTileOverlaps(test, tile))) return {x, y};
+    }
+  }
+  return {x:0, y:Math.max(0, ...board.map(tile => tile.y + tile.h), 0)};
+}
+function getKhzBoardMetrics(){
+  const stage = document.getElementById('khz-board-stage');
+  const rect = stage?.getBoundingClientRect();
+  const width = Math.max(1, rect?.width || 1);
+  return {stage, col: width / KHZ_BOARD_COLS, row: KHZ_BOARD_ROW};
+}
+function applyKhzTileStyle(node, tile, metrics){
+  const gap = 8;
+  node.style.left = `${Math.round(tile.x * metrics.col + gap)}px`;
+  node.style.top = `${Math.round(tile.y * metrics.row + gap)}px`;
+  node.style.width = `${Math.max(142, Math.round(tile.w * metrics.col - gap * 2))}px`;
+  node.style.height = `${Math.max(108, Math.round(tile.h * metrics.row - gap * 2))}px`;
+}
+function khzStats(rows){
+  return rows.map(([k,v]) => `<div class="khz-board-stat"><span>${khzEscape(k)}</span><strong>${khzEscape(v)}</strong></div>`).join('');
+}
+function renderKhzBoardTileBody(type){
+  const base = scenarioSnapshot('baseline');
+  const scenarioA = scenarioSnapshot(document.getElementById('scenario-a')?.value || 'baseline');
+  const scenarioB = scenarioSnapshot(document.getElementById('scenario-b')?.value || 'dry');
+  const cal = V2_STATE.calibration;
+  if(type === 'indicators') {
+    return khzStats([
+      ['Water level', `${base.waterLevel} m MSL`],
+      ['Surface area', `${base.surfaceArea}k km2`],
+      ['Inflow health', `${base.inflow}%`],
+      ['Model confidence', `${base.confidence}%`]
+    ]);
+  }
+  if(type === 'forecast') {
+    return khzStats([
+      ['Forecast day', `+${V2_STATE.forecastDay} d`],
+      ['Active mode', V2_STATE.mode],
+      ['Workspace view', V2_STATE.view],
+      ['Alert severity', `${base.alert}%`]
+    ]);
+  }
+  if(type === 'layers') {
+    return khzStats([
+      ['Basemap', tileLayers[currentTile]?.label || currentTile],
+      ...Object.entries(V2_LAYER_GROUPS).map(([key, group]) => [V2_LAYER_LABELS[key] || key, map.hasLayer(group) ? 'Visible' : 'Hidden'])
+    ]);
+  }
+  if(type === 'calibration') {
+    return khzStats([
+      ['File', cal?.name || 'None'],
+      ['Accepted rows', cal?.rows?.length || 0],
+      ['Warnings', cal?.errors?.length || 0],
+      ['Role', 'Overlay only']
+    ]);
+  }
+  if(type === 'compare') {
+    return khzStats([
+      ['Scenario A', scenarioA.label],
+      ['Scenario B', scenarioB.label],
+      ['Water delta', `${(scenarioB.waterLevel - scenarioA.waterLevel).toFixed(2)} m`],
+      ['Confidence delta', `${(scenarioB.confidence - scenarioA.confidence).toFixed(1)}%`]
+    ]);
+  }
+  if(type === 'methods') {
+    return `<div class="khz-board-text">${khzEscape(V2_METHOD_EVIDENCE.framing)}<br><br>${khzEscape(V2_METHOD_EVIDENCE.uncertainty)}</div>`;
+  }
+  if(type === 'sources') {
+    return khzStats([
+      ['Open feeds', V2_SOURCES.length],
+      ['Marine physics', 'Copernicus'],
+      ['Climate forcing', 'ERA5'],
+      ['Hydrology', 'GloFAS + GRDC'],
+      ['Land change', 'Landsat']
+    ]);
+  }
+  if(type === 'exports') {
+    return khzStats([
+      ['Setup JSON', 'State + layers'],
+      ['Research pack', 'Methods + sources'],
+      ['Forecast CSV', 'Chart series'],
+      ['Dashboard PNG', 'Summary visual']
+    ]);
+  }
+  return '<div class="khz-board-text">No tile renderer registered.</div>';
+}
+function renderKhzTilePicker(){
+  const picker = document.getElementById('khz-board-picker');
+  if(!picker) return;
+  picker.innerHTML = Object.entries(KHZ_BOARD_CATALOG).map(([type, spec]) => `
+    <button onclick="addKhzBoardTile('${type}')">
+      <strong>${khzEscape(spec.title)}</strong>
+      <span>${khzEscape(spec.note)}</span>
+    </button>
+  `).join('');
+}
+function toggleKhzTilePicker(force){
+  const picker = document.getElementById('khz-board-picker');
+  if(!picker) return;
+  picker.classList.toggle('open', typeof force === 'boolean' ? force : !picker.classList.contains('open'));
+}
+function renderKhzCustomBoard(){
+  const stage = document.getElementById('khz-board-stage');
+  const empty = document.getElementById('khz-board-empty');
+  if(!stage) return;
+  const board = loadKhzBoard();
+  stage.querySelectorAll('.khz-board-tile').forEach(node => node.remove());
+  if(empty) empty.style.display = board.length ? 'none' : 'grid';
+  const metrics = getKhzBoardMetrics();
+  board.forEach(tile => {
+    const spec = KHZ_BOARD_CATALOG[tile.type] || KHZ_BOARD_CATALOG.indicators;
+    tile.x = khzClamp(Number(tile.x) || 0, 0, KHZ_BOARD_COLS - tile.w);
+    tile.y = Math.max(0, Number(tile.y) || 0);
+    tile.w = khzClamp(Number(tile.w) || spec.w, 2, KHZ_BOARD_COLS);
+    tile.h = khzClamp(Number(tile.h) || spec.h, 2, 8);
+    const node = document.createElement('article');
+    node.className = 'khz-board-tile';
+    node.dataset.tileId = tile.id;
+    node.innerHTML = `
+      <div class="khz-board-tile-head">
+        <div class="khz-board-tile-title">${khzEscape(spec.title)}</div>
+        <button onclick="removeKhzBoardTile('${khzEscape(tile.id)}'); event.stopPropagation();" aria-label="Remove ${khzEscape(spec.title)}">×</button>
+      </div>
+      <div class="khz-board-tile-body">${renderKhzBoardTileBody(tile.type)}</div>
+      <div class="khz-board-resize" aria-hidden="true"></div>
+    `;
+    applyKhzTileStyle(node, tile, metrics);
+    stage.appendChild(node);
+    attachKhzTileGesture(node, tile, board);
+  });
+}
+function addKhzBoardTile(type){
+  const board = loadKhzBoard();
+  const spec = KHZ_BOARD_CATALOG[type] || KHZ_BOARD_CATALOG.indicators;
+  const pos = findKhzBoardSlot(board, spec.w, spec.h);
+  board.push(khzBoardTile(type, pos.x, pos.y, spec.w, spec.h));
+  saveKhzBoard(board);
+  toggleKhzTilePicker(false);
+  renderKhzCustomBoard();
+  setWorkspaceStatus(`Custom board tile added: ${spec.title}`);
+}
+function removeKhzBoardTile(id){
+  const board = loadKhzBoard().filter(tile => tile.id !== id);
+  saveKhzBoard(board);
+  renderKhzCustomBoard();
+  setWorkspaceStatus('Custom board tile removed.');
+}
+function clearKhzBoard(){
+  saveKhzBoard([]);
+  renderKhzCustomBoard();
+  setWorkspaceStatus('Custom board cleared.');
+}
+function resetKhzBoard(){
+  const board = defaultKhzBoard();
+  saveKhzBoard(board);
+  renderKhzCustomBoard();
+  setWorkspaceStatus('Custom board reset to Khazar research template.');
+}
+function optimiseKhzBoard(){
+  const board = loadKhzBoard();
+  let x = 0;
+  let y = 0;
+  let rowH = 0;
+  board.forEach(tile => {
+    const spec = KHZ_BOARD_CATALOG[tile.type] || KHZ_BOARD_CATALOG.indicators;
+    tile.w = khzClamp(tile.w || spec.w, 2, KHZ_BOARD_COLS);
+    tile.h = khzClamp(tile.h || spec.h, 2, 8);
+    if(x + tile.w > KHZ_BOARD_COLS) {
+      x = 0;
+      y += Math.max(2, rowH);
+      rowH = 0;
+    }
+    tile.x = x;
+    tile.y = y;
+    x += tile.w;
+    rowH = Math.max(rowH, tile.h);
+  });
+  saveKhzBoard(board);
+  renderKhzCustomBoard();
+  setWorkspaceStatus('Custom board layout optimised.');
+}
+function attachKhzTileGesture(node, tile, board){
+  const head = node.querySelector('.khz-board-tile-head');
+  const resizer = node.querySelector('.khz-board-resize');
+  const start = (event, mode) => {
+    if(event.target.closest('button')) return;
+    event.preventDefault();
+    node.classList.add('dragging');
+    const metrics = getKhzBoardMetrics();
+    const startX = event.clientX;
+    const startY = event.clientY;
+    const base = {...tile};
+    const move = e => {
+      const dx = e.clientX - startX;
+      const dy = e.clientY - startY;
+      if(mode === 'drag') {
+        tile.x = khzClamp(Math.round(base.x + dx / metrics.col), 0, KHZ_BOARD_COLS - tile.w);
+        tile.y = Math.max(0, Math.round(base.y + dy / metrics.row));
+      } else {
+        tile.w = khzClamp(Math.round(base.w + dx / metrics.col), 2, KHZ_BOARD_COLS - tile.x);
+        tile.h = khzClamp(Math.round(base.h + dy / metrics.row), 2, 8);
+      }
+      applyKhzTileStyle(node, tile, metrics);
+    };
+    const up = () => {
+      node.classList.remove('dragging');
+      document.removeEventListener('pointermove', move);
+      document.removeEventListener('pointerup', up);
+      saveKhzBoard(board);
+      setWorkspaceStatus('Custom board layout saved.');
+    };
+    document.addEventListener('pointermove', move);
+    document.addEventListener('pointerup', up, {once:true});
+  };
+  head?.addEventListener('pointerdown', event => start(event, 'drag'));
+  resizer?.addEventListener('pointerdown', event => start(event, 'resize'));
+}
+function openKhzCustomBoard(){
+  closeKhazarMenu();
+  closeKhzSearch();
+  document.getElementById('khz-board-modal')?.classList.add('open');
+  document.getElementById('khz-board-toggle')?.classList.add('active');
+  renderKhzTilePicker();
+  requestAnimationFrame(renderKhzCustomBoard);
+  setWorkspaceStatus('Custom board ready.');
+}
+function closeKhzCustomBoard(){
+  document.getElementById('khz-board-modal')?.classList.remove('open');
+  document.getElementById('khz-board-toggle')?.classList.remove('active');
+}
+function toggleKhazarMenu(event){
+  event?.stopPropagation();
+  const menu = document.getElementById('khz-app-menu');
+  const open = !menu?.classList.contains('open');
+  closeKhzSearch();
+  closeKhzInfo();
+  menu?.classList.toggle('open', open);
+  const toggle = document.getElementById('khz-menu-toggle');
+  toggle?.classList.toggle('active', open);
+  toggle?.setAttribute('aria-expanded', open ? 'true' : 'false');
+}
+function closeKhazarMenu(){
+  document.getElementById('khz-app-menu')?.classList.remove('open');
+  const toggle = document.getElementById('khz-menu-toggle');
+  toggle?.classList.remove('active');
+  toggle?.setAttribute('aria-expanded', 'false');
+}
+const KHZ_INFO_TOPICS = {
+  guide: {
+    kicker:'Guide',
+    title:'Khazar v2 information notes',
+    sub:'Use these popups as a lightweight user guide while keeping the dashboard clean.',
+    cards:[
+      ['Custom board', 'Pin only the tiles needed for a class, research meeting or stakeholder briefing. Drag and resize tiles; layout is saved locally in the browser.'],
+      ['Search', 'Press Ctrl/Cmd+K or / to find views, modes, layers, sources, exports and actions without hunting through panels.'],
+      ['Evidence', 'Calibration files become overlays and diagnostics; they never replace the original Khazar baseline data layout.'],
+      ['Exports', 'Exports include the current mode, visible layers, forecast day, calibration status, custom board layout and source metadata.']
+    ]
+  },
+  board: {
+    kicker:'Board',
+    title:'Custom board workflow',
+    sub:'An Andrew-inspired board adapted for Khazar regional research.',
+    cards:[
+      ['Add tile', 'Choose indicators, methods, sources, layer state, calibration, compare or export readiness tiles.'],
+      ['Drag and resize', 'Use the tile header to move a tile and the lower-right handle to resize it. Changes persist in this browser.'],
+      ['Optimise layout', 'Re-packs the board into a clean grid when a meeting board starts feeling crowded.']
+    ]
+  },
+  calibration: {
+    kicker:'Calibration',
+    title:'Calibration upload notes',
+    sub:'Supported CSV/JSON observations validate the model overlay while preserving the baseline dashboard.',
+    cards:[
+      ['CSV schema', 'Use columns date, metric, value, and optional unit, source, confidence.'],
+      ['JSON schema', 'Use {"name":"...","observations":[{"date":"...","metric":"water_level_m","value":0}]}.'],
+      ['Supported metrics', 'water_level_m, surface_area_km2, volga_inflow_km3yr, salinity_ppt, sst_c, chlorophyll_index.']
+    ]
+  },
+  layers: {
+    kicker:'Layers',
+    title:'Map layer notes',
+    sub:'Layer toggles control real Leaflet layer groups.',
+    cards:[
+      ['Bathymetry', 'Depth-zone polygons highlight the shallow northern shelf, middle basin and deep southern basin.'],
+      ['Hydrology', 'River overlays focus on Volga, Ural, Kura and Terek inflow signals.'],
+      ['Ecology and SST', 'Chlorophyll and SST previews can be enabled for climate/ecology interpretation.'],
+      ['Infrastructure', 'Energy markers and recession zones help compare environmental and operational exposure.']
+    ]
+  },
+  methods: {
+    kicker:'Methods',
+    title:'Methods and evidence notes',
+    sub:'The technical layer keeps source families separated for clarity and export audit.',
+    cards:[
+      ['Water balance', 'River inflow, evaporation pressure, precipitation and shoreline hypsometry are treated as separate evidence families.'],
+      ['Remote sensing', 'Optical, thermal, altimetry and coastline layers remain interpretable before model fusion.'],
+      ['Uncertainty', 'Scenario confidence is carried through compare mode and export metadata.']
+    ]
+  },
+  exports: {
+    kicker:'Exports',
+    title:'Export suite notes',
+    sub:'High-level export buttons are designed for reproducible research handoff.',
+    cards:[
+      ['Current setup JSON', 'Captures stakeholder mode, view, forecast day, visible layer state, calibration diagnostics and custom board layout.'],
+      ['Research pack JSON', 'Adds methods, research questions, source lineage, acceptance checks and active state.'],
+      ['Source manifest CSV', 'Exports source, role, cadence, variables, confidence, limitation and URL fields.'],
+      ['Comparison files', 'Export scenario A/B values as JSON or CSV when comparing setups.']
+    ]
+  }
+};
+function showKhzInfo(topic = 'guide'){
+  closeKhazarMenu();
+  document.getElementById('v2-export-menu')?.classList.remove('open');
+  const data = KHZ_INFO_TOPICS[topic] || KHZ_INFO_TOPICS.guide;
+  const set = (id, text) => { const el = document.getElementById(id); if(el) el.textContent = text; };
+  set('khz-info-kicker', data.kicker);
+  set('khz-info-title', data.title);
+  set('khz-info-sub', data.sub);
+  const body = document.getElementById('khz-info-body');
+  if(body) body.innerHTML = data.cards.map(([title, text]) => `<div class="khz-info-card"><strong>${khzEscape(title)}</strong><span>${khzEscape(text)}</span></div>`).join('');
+  document.getElementById('khz-info-modal')?.classList.add('open');
+  setWorkspaceStatus(`${data.title} opened.`);
+}
+function closeKhzInfo(){
+  document.getElementById('khz-info-modal')?.classList.remove('open');
+}
+function khzSearchItems(){
+  const modeItems = [
+    ['Executive mode','mode','Headline KPIs, map, alerts and simplified forecast.', () => setStakeholderMode('exec')],
+    ['Operations mode','mode','Layers, infrastructure, pipeline and scenario controls.', () => setStakeholderMode('ops')],
+    ['Evidence mode','mode','Source provenance, calibration status and chart details.', () => setStakeholderMode('evidence')],
+    ['Technical mode','mode','Model assumptions, export metadata and diagnostics.', () => setStakeholderMode('technical')]
+  ];
+  const viewItems = Object.entries(V2_VIEW_CONFIG).map(([key, cfg]) => [
+    `${cfg.label} view`, 'view', cfg.status, () => switchView(key, document.querySelector(`.nav-btn[data-view="${key}"]`))
+  ]);
+  const layerItems = Object.entries(V2_LAYER_LABELS).map(([key, label]) => [
+    `${label} layer`, 'layer', `Toggle ${label.toLowerCase()} map overlay.`, () => toggleV2Layer(key)
+  ]);
+  const sourceItems = V2_SOURCES.slice(0, 8).map(src => [
+    src.name, 'source', `${src.domain} · ${src.variables}`, () => { setStakeholderMode('technical'); toggleV2Drawer('right'); setWorkspaceStatus(`Source selected: ${src.name}`); }
+  ]);
+  return [
+    ...modeItems,
+    ...viewItems,
+    ...layerItems,
+    ['Custom board','tool','Open the draggable and resizable research board.', openKhzCustomBoard],
+    ['Information notes','help','Open contextual guide cards.', () => showKhzInfo('guide')],
+    ['Keyboard shortcuts','help','Open shortcut reference.', () => toggleKhzKeyboardHelp(true)],
+    ['Compare scenarios','analysis','Open side-by-side setup comparison.', () => { if(!V2_STATE.compare) toggleCompareMode(); }],
+    ['Presentation mode','demo','Toggle guided projector presentation.', () => togglePresentationMode()],
+    ['Indicators drawer','panel','Open the left research indicator panel.', () => toggleV2Drawer('left')],
+    ['Methods drawer','panel','Open the right methods and source evidence panel.', () => toggleV2Drawer('right')],
+    ['Export suite','export','Open JSON, CSV and PNG export buttons.', toggleExportMenu],
+    ['Research pack JSON','export','Download methods, sources and active state.', exportResearchPack],
+    ['Source manifest CSV','export','Download citable source registry.', exportSourceManifestCSV],
+    ['Forecast CSV','export','Download chart forecast series.', exportForecastCSV],
+    ['Dashboard PNG','export','Download presentation summary image.', exportDashboardPNG],
+    ['Calibration guide','help','Show CSV and JSON calibration requirements.', () => showKhzInfo('calibration')],
+    ...sourceItems
+  ].map(([title, group, desc, run]) => ({title, group, desc, run, haystack: `${title} ${group} ${desc}`.toLowerCase()}));
+}
+function openKhzSearch(){
+  closeKhazarMenu();
+  closeKhzInfo();
+  document.getElementById('v2-export-menu')?.classList.remove('open');
+  document.getElementById('khz-search-modal')?.classList.add('open');
+  const input = document.getElementById('khz-search-input');
+  KHZ_SEARCH_SELECTED = 0;
+  renderKhzSearch(input?.value || '');
+  setTimeout(() => { input?.focus(); input?.select(); }, 30);
+}
+function closeKhzSearch(){
+  document.getElementById('khz-search-modal')?.classList.remove('open');
+}
+function renderKhzSearch(query = ''){
+  const q = query.trim().toLowerCase();
+  KHZ_SEARCH_MATCHES = khzSearchItems().filter(item => !q || item.haystack.includes(q)).slice(0, 12);
+  KHZ_SEARCH_SELECTED = Math.min(KHZ_SEARCH_SELECTED, Math.max(0, KHZ_SEARCH_MATCHES.length - 1));
+  const results = document.getElementById('khz-search-results');
+  if(!results) return;
+  results.innerHTML = KHZ_SEARCH_MATCHES.length ? KHZ_SEARCH_MATCHES.map((item, index) => `
+    <button class="khz-search-result ${index === KHZ_SEARCH_SELECTED ? 'active' : ''}" onclick="runKhzSearchResult(${index})">
+      <span><strong>${khzEscape(item.title)}</strong><span>${khzEscape(item.desc)}</span></span>
+      <em>${khzEscape(item.group)}</em>
+    </button>
+  `).join('') : '<div class="khz-info-card"><strong>No matches</strong><span>Try source, layer, compare, export, mode, board or a regional term.</span></div>';
+}
+function moveKhzSearchSelection(delta){
+  if(!KHZ_SEARCH_MATCHES.length) return;
+  KHZ_SEARCH_SELECTED = (KHZ_SEARCH_SELECTED + delta + KHZ_SEARCH_MATCHES.length) % KHZ_SEARCH_MATCHES.length;
+  renderKhzSearch(document.getElementById('khz-search-input')?.value || '');
+}
+function runKhzSearchResult(index = KHZ_SEARCH_SELECTED){
+  const item = KHZ_SEARCH_MATCHES[index];
+  if(!item) return;
+  closeKhzSearch();
+  item.run();
+  setWorkspaceStatus(`Command: ${item.title}`);
+}
+const KHZ_SHORTCUTS = [
+  ['Ctrl/Cmd K', 'Open search / command palette'],
+  ['/', 'Open search'],
+  ['?', 'Open keyboard shortcuts'],
+  ['M', 'Open hamburger workspace menu'],
+  ['B', 'Open custom board'],
+  ['I', 'Open information notes'],
+  ['G', 'Open methods / evidence drawer'],
+  ['L', 'Open key indicators drawer'],
+  ['C', 'Toggle compare mode'],
+  ['P', 'Toggle presentation mode'],
+  ['Arrow keys', 'Step demo scenes in presentation mode'],
+  ['E', 'Open export suite'],
+  ['1-5', 'Switch GEOINT, Hydrology, Climate, Energy, Security views'],
+  ['0', 'Reset forecast slider'],
+  ['Esc', 'Close overlays, popups and drawers']
+];
+function renderKhzShortcuts(){
+  const grid = document.getElementById('khz-shortcut-grid');
+  if(!grid) return;
+  grid.innerHTML = KHZ_SHORTCUTS.map(([key, label]) => `<div class="khz-shortcut-row"><code>${khzEscape(key)}</code><span>${khzEscape(label)}</span></div>`).join('');
+}
+function toggleKhzKeyboardHelp(force){
+  closeKhazarMenu();
+  renderKhzShortcuts();
+  const modal = document.getElementById('khz-shortcuts-modal');
+  const open = typeof force === 'boolean' ? force : !modal?.classList.contains('open');
+  modal?.classList.toggle('open', open);
+  if(open) setWorkspaceStatus('Keyboard shortcut reference opened.');
+}
+function closeKhzOverlays(){
+  closeKhazarMenu();
+  closeKhzSearch();
+  closeKhzInfo();
+  closeKhzCustomBoard();
+  toggleKhzKeyboardHelp(false);
+  document.getElementById('v2-export-menu')?.classList.remove('open');
+  closeV2Drawers();
+}
+function initKhzAdvancedControls(){
+  renderKhzTilePicker();
+  renderKhzShortcuts();
+  document.querySelectorAll('.khz-modal-backdrop').forEach(backdrop => {
+    backdrop.addEventListener('click', event => {
+      if(event.target !== backdrop) return;
+      backdrop.classList.remove('open');
+      if(backdrop.id === 'khz-board-modal') document.getElementById('khz-board-toggle')?.classList.remove('active');
+    });
+  });
+  const searchInput = document.getElementById('khz-search-input');
+  searchInput?.addEventListener('keydown', event => {
+    if(event.key === 'ArrowDown') { event.preventDefault(); moveKhzSearchSelection(1); }
+    if(event.key === 'ArrowUp') { event.preventDefault(); moveKhzSearchSelection(-1); }
+    if(event.key === 'Enter') { event.preventDefault(); runKhzSearchResult(); }
+    if(event.key === 'Escape') { event.preventDefault(); closeKhzSearch(); }
+  });
+  window.addEventListener('resize', () => {
+    if(document.getElementById('khz-board-modal')?.classList.contains('open')) renderKhzCustomBoard();
+  });
+}
 function updateV2Audit(){
   const set = (id, value) => { const el = document.getElementById(id); if(el) el.textContent = value; };
   const label = {exec:'Executive', ops:'Operations', evidence:'Evidence', technical:'Technical'}[V2_STATE.mode] || 'Executive';
@@ -2713,15 +3873,39 @@ function updateV2Audit(){
 }
 document.addEventListener('keydown', event => {
   const tag = (event.target?.tagName || '').toLowerCase();
-  if(['input','textarea','select'].includes(tag)) return;
-  if(event.key === 'p' || event.key === 'P') { event.preventDefault(); togglePresentationMode(); }
-  if(event.key === 'Escape') { closeV2Drawers(); document.getElementById('v2-export-menu')?.classList.remove('open'); }
+  const typing = ['input','textarea','select'].includes(tag);
+  const key = event.key.toLowerCase();
+  if((event.ctrlKey || event.metaKey) && key === 'k') { event.preventDefault(); openKhzSearch(); return; }
+  if(typing) {
+    if(event.key === 'Escape') closeKhzOverlays();
+    return;
+  }
+  if(event.key === 'Escape') { event.preventDefault(); closeKhzOverlays(); return; }
+  if(event.key === '?' || (event.shiftKey && event.key === '/')) { event.preventDefault(); toggleKhzKeyboardHelp(); return; }
+  if(event.key === '/') { event.preventDefault(); openKhzSearch(); return; }
+  if(key === 'm') { event.preventDefault(); toggleKhazarMenu(event); return; }
+  if(key === 'b') { event.preventDefault(); openKhzCustomBoard(); return; }
+  if(key === 'i') { event.preventDefault(); showKhzInfo('guide'); return; }
+  if(key === 'g') { event.preventDefault(); toggleV2Drawer('right'); return; }
+  if(key === 'l') { event.preventDefault(); toggleV2Drawer('left'); return; }
+  if(key === 'c') { event.preventDefault(); toggleCompareMode(); return; }
+  if(key === 'e') { event.preventDefault(); toggleExportMenu(); return; }
+  if(key === 'p') { event.preventDefault(); togglePresentationMode(); return; }
+  if(event.key === '0') { event.preventDefault(); resetSim(); return; }
+  const viewKeys = {1:'geoint',2:'hydro',3:'climate',4:'energy',5:'security'};
+  if(viewKeys[event.key]) {
+    event.preventDefault();
+    switchView(viewKeys[event.key], document.querySelector(`.nav-btn[data-view="${viewKeys[event.key]}"]`));
+    return;
+  }
   if(V2_STATE.presentation && event.key === 'ArrowRight') { event.preventDefault(); stepDemo(1); }
   if(V2_STATE.presentation && event.key === 'ArrowLeft') { event.preventDefault(); stepDemo(-1); }
 });
 document.addEventListener('click', event => {
   const menu = document.getElementById('v2-export-menu');
   if(menu && menu.classList.contains('open') && !event.target.closest('.v2-export-menu') && !event.target.closest('.v2-export-primary')) menu.classList.remove('open');
+  const appMenu = document.getElementById('khz-app-menu');
+  if(appMenu && appMenu.classList.contains('open') && !event.target.closest('#khz-app-menu') && !event.target.closest('#khz-menu-toggle')) closeKhazarMenu();
 });
 function initV2(){
   syncLayerButtons();
@@ -2729,6 +3913,7 @@ function initV2(){
   renderCompareMode();
   switchView(V2_STATE.view, document.querySelector(`.nav-btn[data-view="${V2_STATE.view}"]`));
   renderCalibrationStatus();
+  initKhzAdvancedControls();
   updateV2Audit();
   window.KhazarV2 = {
     state: V2_STATE,
@@ -2747,6 +3932,14 @@ function initV2(){
     exportCompareJSON,
     exportCompareCSV,
     currentExportPayload,
+    openKhzCustomBoard,
+    closeKhzCustomBoard,
+    addKhzBoardTile,
+    resetKhzBoard,
+    optimiseKhzBoard,
+    openKhzSearch,
+    showKhzInfo,
+    toggleKhzKeyboardHelp,
     parseCSV,
     normaliseCalibration
   };
