@@ -1301,9 +1301,13 @@ header, .left-panel, .right-panel, .globe-area, .bottom-bar {
   line-height: 1;
 }
 .khz-info-dot:hover { background: #eaf6fb; }
+.khz-panel-focus {
+  outline: 2px solid rgba(8,127,167,0.42);
+  box-shadow: 0 0 0 6px rgba(8,127,167,0.10), 0 20px 48px rgba(15,69,95,0.16) !important;
+}
 .khz-modal-backdrop {
   position: fixed;
-  inset: 0;
+  inset: 82px 0 0 0;
   z-index: 1300;
   display: none;
   align-items: center;
@@ -1315,7 +1319,7 @@ header, .left-panel, .right-panel, .globe-area, .bottom-bar {
 .khz-modal-backdrop.open { display: flex; }
 .khz-modal {
   width: min(980px, calc(100vw - 36px));
-  max-height: min(760px, calc(100dvh - 36px));
+  max-height: min(760px, calc(100dvh - 108px));
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -1326,6 +1330,8 @@ header, .left-panel, .right-panel, .globe-area, .bottom-bar {
 }
 .khz-modal.small { width: min(560px, calc(100vw - 36px)); }
 .khz-modal-head {
+  position: relative;
+  z-index: 3;
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
@@ -1658,10 +1664,13 @@ header, .left-panel, .right-panel, .globe-area, .bottom-bar {
     left: 14px;
     width: auto;
   }
-  .khz-modal-backdrop { padding: 10px; }
+  .khz-modal-backdrop {
+    inset: 64px 0 0 0;
+    padding: 10px;
+  }
   .khz-modal {
     width: calc(100vw - 20px);
-    max-height: calc(100dvh - 20px);
+    max-height: calc(100dvh - 84px);
   }
   .khz-board-picker { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .khz-board-stage {
@@ -2146,7 +2155,7 @@ header, .left-panel, .right-panel, .globe-area, .bottom-bar {
         <div class="khz-popup-title">Workspace Menu</div>
         <div class="khz-popup-sub">Andrew-style board, search, help and guide notes.</div>
       </div>
-      <button class="khz-popup-close" onclick="closeKhazarMenu()" aria-label="Close workspace menu">×</button>
+      <button class="khz-popup-close" data-khz-close="menu" onclick="closeKhazarMenu()" aria-label="Close workspace menu">×</button>
     </div>
     <button class="khz-menu-item" onclick="openKhzCustomBoard()" role="menuitem">
       <span>Custom Board<small>Pin the indicators, scenarios and evidence cards you need.</small></span>
@@ -2164,7 +2173,7 @@ header, .left-panel, .right-panel, .globe-area, .bottom-bar {
       <span>Information Notes<small>Concise user guide for calibration, layers, compare and exports.</small></span>
       <span class="khz-menu-key">I</span>
     </button>
-    <button class="khz-menu-item" onclick="toggleV2Drawer('right'); closeKhazarMenu();" role="menuitem">
+    <button class="khz-menu-item" onclick="focusKhzPanel('right'); closeKhazarMenu();" role="menuitem">
       <span>Methods / Evidence<small>Open technical workflow, source registry and assumptions.</small></span>
       <span class="khz-menu-key">G</span>
     </button>
@@ -2189,7 +2198,7 @@ header, .left-panel, .right-panel, .globe-area, .bottom-bar {
           <button onclick="resetKhzBoard()">Reset board</button>
           <button onclick="clearKhzBoard()">Clear</button>
           <button onclick="showKhzInfo('board')">Guide</button>
-          <button class="khz-icon-btn" onclick="closeKhzCustomBoard()" aria-label="Close custom board">×</button>
+          <button class="khz-icon-btn" data-khz-close="board" onclick="closeKhzCustomBoard()" aria-label="Close custom board">Close</button>
         </div>
       </div>
       <div class="khz-modal-body">
@@ -2215,7 +2224,7 @@ header, .left-panel, .right-panel, .globe-area, .bottom-bar {
           <div class="khz-modal-title" id="khz-search-title">Search Khazar v2</div>
           <div class="khz-modal-sub">Type a layer, view, mode, export, source or tool name.</div>
         </div>
-        <button class="khz-icon-btn" onclick="closeKhzSearch()" aria-label="Close search">×</button>
+        <button class="khz-icon-btn" data-khz-close="search" onclick="closeKhzSearch()" aria-label="Close search">Close</button>
       </div>
       <div class="khz-modal-body">
         <div class="khz-search-box">
@@ -2236,7 +2245,7 @@ header, .left-panel, .right-panel, .globe-area, .bottom-bar {
           <div class="khz-modal-title" id="khz-shortcuts-title">Shortcut map</div>
           <div class="khz-modal-sub">Designed for live demos, projector mode and fast research navigation.</div>
         </div>
-        <button class="khz-icon-btn" onclick="toggleKhzKeyboardHelp(false)" aria-label="Close shortcut help">×</button>
+        <button class="khz-icon-btn" data-khz-close="shortcuts" onclick="toggleKhzKeyboardHelp(false)" aria-label="Close shortcut help">Close</button>
       </div>
       <div class="khz-modal-body">
         <div class="khz-shortcut-grid" id="khz-shortcut-grid"></div>
@@ -2253,7 +2262,7 @@ header, .left-panel, .right-panel, .globe-area, .bottom-bar {
           <div class="khz-modal-title" id="khz-info-title">Information notes</div>
           <div class="khz-modal-sub" id="khz-info-sub">Contextual guidance for the current workflow.</div>
         </div>
-        <button class="khz-icon-btn" onclick="closeKhzInfo()" aria-label="Close information notes">×</button>
+        <button class="khz-icon-btn" data-khz-close="info" onclick="closeKhzInfo()" aria-label="Close information notes">Close</button>
       </div>
       <div class="khz-modal-body">
         <div class="khz-info-list" id="khz-info-body"></div>
@@ -2883,6 +2892,20 @@ function setWorkspaceStatus(message) {
   const el = document.getElementById('v2-workspace-status');
   if(el) el.textContent = message;
 }
+function normaliseMapMarkerSemantics(){
+  document.querySelectorAll('.leaflet-marker-icon').forEach(el => {
+    const isInteractive = el.classList.contains('leaflet-interactive') && getComputedStyle(el).pointerEvents !== 'none';
+    if(!isInteractive) {
+      el.removeAttribute('role');
+      el.removeAttribute('tabindex');
+      el.setAttribute('aria-hidden', 'true');
+      return;
+    }
+    const label = (el.getAttribute('title') || el.getAttribute('alt') || el.textContent || 'Map marker details').trim();
+    el.setAttribute('role', 'button');
+    el.setAttribute('aria-label', label);
+  });
+}
 function syncLayerButton(key, active) {
   document.querySelectorAll(`.toggle2[data-layer="${key}"]`).forEach(btn => {
     btn.classList.toggle('on', active);
@@ -2901,6 +2924,7 @@ function setLayerState(key, active) {
   if(active && !isVisible) group.addTo(map);
   if(!active && isVisible) map.removeLayer(group);
   syncLayerButton(key, active);
+  setTimeout(normaliseMapMarkerSemantics, 0);
   return active;
 }
 function toggleV2Layer(key) {
@@ -2961,7 +2985,7 @@ const cities = [
 cities.forEach(c => {
   const sz = c.t==='capital'?13:c.t==='major'?9:7;
   const bg = c.t==='capital'?'#ff4757':'#00c8ff';
-  const m = L.marker(c.pos,{icon:L.divIcon({className:'',html:`<div style="width:${sz}px;height:${sz}px;border-radius:50%;background:${bg};border:2px solid var(--ink);box-shadow:0 0 8px ${bg}55;"></div>`,iconSize:[sz,sz],iconAnchor:[sz/2,sz/2]})});
+  const m = L.marker(c.pos,{title:c.n, alt:c.n, icon:L.divIcon({className:'',html:`<div style="width:${sz}px;height:${sz}px;border-radius:50%;background:${bg};border:2px solid var(--ink);box-shadow:0 0 8px ${bg}55;"></div>`,iconSize:[sz,sz],iconAnchor:[sz/2,sz/2]})});
   m.addTo(map).bindPopup(`<b>${c.n}</b><br><span>${c.s}</span>`);
   L.marker(c.pos,{icon:L.divIcon({className:'',html:`<div class="khz-feature-label" style="font-family:'Space Mono',monospace;font-size:${c.t==='capital'?10:9}px;font-weight:${c.t==='capital'?700:500};white-space:nowrap;margin-top:1px;">${c.n}</div>`,iconSize:[100,14],iconAnchor:[-5,7]}),interactive:false}).addTo(map);
 });
@@ -2994,7 +3018,7 @@ const oilPlatforms = [
   {pos:[39.8,52.9],n:'Cheleken Block',s:'Turkmen offshore hydrocarbons'},
 ];
 oilPlatforms.forEach(p=>{
-  addOverlay(L.marker(p.pos,{icon:L.divIcon({className:'',html:`<div style="width:12px;height:12px;background:#b87912;border:2px solid white;border-radius:2px;box-shadow:0 4px 10px rgba(184,121,18,0.28);transform:rotate(45deg);"></div>`,iconSize:[12,12],iconAnchor:[6,6]})}).bindPopup(`<b>${p.n}</b><br><span>${p.s}</span>`), 'oil');
+  addOverlay(L.marker(p.pos,{title:p.n, alt:p.n, icon:L.divIcon({className:'',html:`<div style="width:12px;height:12px;background:#b87912;border:2px solid white;border-radius:2px;box-shadow:0 4px 10px rgba(184,121,18,0.28);transform:rotate(45deg);"></div>`,iconSize:[12,12],iconAnchor:[6,6]})}).bindPopup(`<b>${p.n}</b><br><span>${p.s}</span>`), 'oil');
 });
 
 // ── RIVERS ────────────────────────────────────
@@ -3304,6 +3328,19 @@ function toggleV2Drawer(side){
   if(left) document.body.classList.remove('drawer-right-open');
   if(right) document.body.classList.remove('drawer-left-open');
   setWorkspaceStatus(left ? 'Indicator drawer ready.' : right ? 'Methods and evidence drawer ready.' : 'Dashboard ready.');
+}
+function focusKhzPanel(side){
+  const panel = document.querySelector(side === 'left' ? '.left-panel' : '.right-panel');
+  const isCompact = window.matchMedia('(max-width: 1279px)').matches;
+  if(isCompact) {
+    toggleV2Drawer(side);
+  } else {
+    panel?.classList.remove('khz-panel-focus');
+    void panel?.offsetWidth;
+    panel?.classList.add('khz-panel-focus');
+    setTimeout(() => panel?.classList.remove('khz-panel-focus'), 1600);
+  }
+  setWorkspaceStatus(side === 'left' ? 'Indicators panel focused.' : 'Methods and evidence panel focused.');
 }
 function toggleExportMenu(){
   const menu = document.getElementById('v2-export-menu');
@@ -3659,17 +3696,20 @@ function removeKhzBoardTile(id){
   setWorkspaceStatus('Custom board tile removed.');
 }
 function clearKhzBoard(){
+  toggleKhzTilePicker(false);
   saveKhzBoard([]);
   renderKhzCustomBoard();
   setWorkspaceStatus('Custom board cleared.');
 }
 function resetKhzBoard(){
+  toggleKhzTilePicker(false);
   const board = defaultKhzBoard();
   saveKhzBoard(board);
   renderKhzCustomBoard();
   setWorkspaceStatus('Custom board reset to Khazar research template.');
 }
 function optimiseKhzBoard(){
+  toggleKhzTilePicker(false);
   const board = loadKhzBoard();
   let x = 0;
   let y = 0;
@@ -3853,7 +3893,7 @@ function khzSearchItems(){
     `${label} layer`, 'layer', `Toggle ${label.toLowerCase()} map overlay.`, () => toggleV2Layer(key)
   ]);
   const sourceItems = V2_SOURCES.slice(0, 8).map(src => [
-    src.name, 'source', `${src.domain} · ${src.variables}`, () => { setStakeholderMode('technical'); toggleV2Drawer('right'); setWorkspaceStatus(`Source selected: ${src.name}`); }
+    src.name, 'source', `${src.domain} · ${src.variables}`, () => { setStakeholderMode('technical'); focusKhzPanel('right'); setWorkspaceStatus(`Source selected: ${src.name}`); }
   ]);
   return [
     ...modeItems,
@@ -3864,8 +3904,8 @@ function khzSearchItems(){
     ['Keyboard shortcuts','help','Open shortcut reference.', () => toggleKhzKeyboardHelp(true)],
     ['Compare scenarios','analysis','Open side-by-side setup comparison.', () => { if(!V2_STATE.compare) toggleCompareMode(); }],
     ['Presentation mode','demo','Toggle guided projector presentation.', () => togglePresentationMode()],
-    ['Indicators drawer','panel','Open the left research indicator panel.', () => toggleV2Drawer('left')],
-    ['Methods drawer','panel','Open the right methods and source evidence panel.', () => toggleV2Drawer('right')],
+    ['Indicators drawer','panel','Open the left research indicator panel.', () => focusKhzPanel('left')],
+    ['Methods drawer','panel','Open the right methods and source evidence panel.', () => focusKhzPanel('right')],
     ['Export suite','export','Open JSON, CSV and PNG export buttons.', toggleExportMenu],
     ['Research pack JSON','export','Download methods, sources and active state.', exportResearchPack],
     ['Source manifest CSV','export','Download citable source registry.', exportSourceManifestCSV],
@@ -3952,9 +3992,39 @@ function closeKhzOverlays(){
   document.getElementById('v2-export-menu')?.classList.remove('open');
   closeV2Drawers();
 }
+function runKhzCloseAction(action){
+  if(action === 'menu') closeKhazarMenu();
+  if(action === 'board') closeKhzCustomBoard();
+  if(action === 'search') closeKhzSearch();
+  if(action === 'shortcuts') toggleKhzKeyboardHelp(false);
+  if(action === 'info') closeKhzInfo();
+}
+function hoistKhzOverlays(){
+  ['khz-app-menu','v2-export-menu','khz-board-modal','khz-search-modal','khz-shortcuts-modal','khz-info-modal'].forEach(id => {
+    const el = document.getElementById(id);
+    if(el && el.parentElement !== document.body) document.body.appendChild(el);
+  });
+  const quickActions = document.querySelector('.khz-quick-actions');
+  if(quickActions && quickActions.parentElement !== document.body) document.body.appendChild(quickActions);
+}
+function bindKhzCloseFallbacks(){
+  if(document.body.dataset.khzCloseFallbacks === 'ready') return;
+  document.body.dataset.khzCloseFallbacks = 'ready';
+  ['pointerdown','click'].forEach(type => {
+    document.addEventListener(type, event => {
+      const closeButton = event.target.closest?.('[data-khz-close]');
+      if(!closeButton) return;
+      event.preventDefault();
+      event.stopPropagation();
+      runKhzCloseAction(closeButton.dataset.khzClose);
+    }, true);
+  });
+}
 function initKhzAdvancedControls(){
+  hoistKhzOverlays();
   renderKhzTilePicker();
   renderKhzShortcuts();
+  bindKhzCloseFallbacks();
   document.querySelectorAll('.khz-modal-backdrop').forEach(backdrop => {
     backdrop.addEventListener('click', event => {
       if(event.target !== backdrop) return;
@@ -3996,8 +4066,8 @@ document.addEventListener('keydown', event => {
   if(key === 'm') { event.preventDefault(); toggleKhazarMenu(event); return; }
   if(key === 'b') { event.preventDefault(); openKhzCustomBoard(); return; }
   if(key === 'i') { event.preventDefault(); showKhzInfo('guide'); return; }
-  if(key === 'g') { event.preventDefault(); toggleV2Drawer('right'); return; }
-  if(key === 'l') { event.preventDefault(); toggleV2Drawer('left'); return; }
+  if(key === 'g') { event.preventDefault(); focusKhzPanel('right'); return; }
+  if(key === 'l') { event.preventDefault(); focusKhzPanel('left'); return; }
   if(key === 'c') { event.preventDefault(); toggleCompareMode(); return; }
   if(key === 'e') { event.preventDefault(); toggleExportMenu(); return; }
   if(key === 'p') { event.preventDefault(); togglePresentationMode(); return; }
@@ -4025,6 +4095,8 @@ function initV2(){
   renderCalibrationStatus();
   initKhzAdvancedControls();
   updateV2Audit();
+  map.whenReady(() => setTimeout(normaliseMapMarkerSemantics, 0));
+  map.on('zoomend moveend layeradd layerremove', () => setTimeout(normaliseMapMarkerSemantics, 0));
   window.KhazarV2 = {
     state: V2_STATE,
     setStakeholderMode,
@@ -4032,6 +4104,7 @@ function initV2(){
     setLayerState,
     toggleV2Layer,
     toggleV2Drawer,
+    focusKhzPanel,
     closeV2Drawers,
     toggleCompareMode,
     togglePresentationMode,
