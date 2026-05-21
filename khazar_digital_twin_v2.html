@@ -1686,6 +1686,116 @@ header, .left-panel, .right-panel, .globe-area, .bottom-bar {
   .khz-search-hint { display: none; }
   .khz-shortcut-row { grid-template-columns: 82px 1fr; }
 }
+
+/* ════════════════════════════════════════════════════
+   V2 MAP OVERLAY COLLISION FIX
+   Keeps Leaflet controls, mode toolbar, globe notice,
+   live HUD and forecast toolbar in separate map zones.
+════════════════════════════════════════════════════ */
+.globe-area {
+  isolation: isolate;
+}
+.view-toggle {
+  z-index: 510;
+  max-width: min(235px, calc(100% - 24px));
+}
+.v2-controlbar {
+  z-index: 505;
+  left: auto;
+  right: 12px;
+  transform: none;
+  max-width: max(280px, calc(100% - 260px));
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+.map-hud {
+  z-index: 430;
+  width: min(360px, calc(100% - 24px));
+  max-width: calc(100% - 24px);
+}
+.v2-globe-notice {
+  z-index: 435;
+  top: 76px;
+  width: min(460px, calc(100% - 32px));
+}
+.sim-toolbar {
+  z-index: 440;
+}
+.globe-preview .map-hud {
+  left: 12px;
+  right: 12px;
+  top: auto;
+  bottom: 74px;
+  width: auto;
+  min-width: 0;
+  max-height: 50px;
+  overflow: hidden;
+  padding: 8px 10px;
+}
+.globe-preview .map-hud .hud-title,
+.globe-preview .map-hud .hud-divider,
+.globe-preview .map-hud .hud-row:not(:last-child) {
+  display: none;
+}
+.globe-preview .map-hud .hud-row {
+  margin: 0;
+  gap: 10px;
+}
+.globe-preview .map-hud .hud-key,
+.globe-preview .map-hud .hud-val {
+  font-size: 10px;
+}
+@media (max-width: 1279px) {
+  .view-toggle {
+    top: 8px;
+    left: 8px;
+    right: auto;
+  }
+  .v2-controlbar {
+    top: 44px;
+    left: 8px;
+    right: 8px;
+    max-width: none;
+    flex-wrap: nowrap;
+    max-height: 40px;
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+  .v2-globe-notice {
+    top: 94px;
+    left: 8px;
+    right: 8px;
+    width: auto;
+    transform: none;
+  }
+  .map-hud,
+  .globe-preview .map-hud {
+    left: 8px;
+    right: 8px;
+    top: auto;
+    bottom: 54px;
+    width: auto;
+    min-width: 0;
+    max-height: 44px;
+    padding: 7px 10px;
+  }
+}
+@media (max-width: 640px) {
+  .v2-controlbar {
+    top: 42px;
+    max-height: 68px;
+    flex-wrap: wrap;
+    overflow-y: auto;
+  }
+  .v2-globe-notice {
+    top: 118px;
+  }
+  .map-hud,
+  .globe-preview .map-hud {
+    display: none;
+  }
+}
 </style>
 </head>
 <body>
