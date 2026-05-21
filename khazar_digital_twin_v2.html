@@ -809,6 +809,388 @@ header {
   .map-hud { top: 112px; }
   .v2-globe-notice { top: 166px; }
 }
+
+/* ════════════════════════════════════════════════════
+   V2 VIEWPORT FIT + RESEARCH CLARITY PATCH
+   Keeps the dashboard inside the browser viewport and
+   lifts typography out of the tiny terminal-style feel.
+════════════════════════════════════════════════════ */
+:root {
+  --dashboard-pad: 12px;
+  --dashboard-gap: 12px;
+  --chart-band: clamp(220px, 26dvh, 280px);
+  --ui-font: "Outfit", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+html, body {
+  height: 100%;
+  overflow: hidden;
+  font-family: var(--ui-font);
+  font-size: 13px;
+  line-height: 1.35;
+}
+.app {
+  width: 100vw;
+  height: 100dvh;
+  overflow: hidden;
+  padding: var(--dashboard-pad);
+  gap: var(--dashboard-gap);
+  grid-template-rows: 64px minmax(0, 1fr) var(--chart-band);
+  grid-template-columns: clamp(270px, 22vw, 310px) minmax(0, 1fr) clamp(290px, 24vw, 340px);
+}
+header, .left-panel, .right-panel, .globe-area, .bottom-bar {
+  min-width: 0;
+  min-height: 0;
+}
+.left-panel, .right-panel {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.left-scroll, .right-scroll {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+}
+.panel-title, .sec-label, .chart-cell-title, .nav-btn, .v2-mode-btn,
+.v2-action-btn, .v2-upload-btn, .vt-btn, .sim-label, .sim-btn {
+  font-family: var(--ui-font);
+  letter-spacing: 0 !important;
+}
+.hdr-title { font-size: 16px; letter-spacing: 0 !important; text-transform: none; }
+.hdr-sub { font-size: 11px; font-family: var(--ui-font); }
+.panel-title { font-size: 12px; text-transform: none; }
+.panel-tag, .clock, .hud-key, .hud-val, .kpi-val, .kpi-unit, .tl-val,
+.v2-readout-v, .c-share, .ens-num, .v2-row span {
+  font-family: var(--mono);
+}
+.sec-label {
+  font-size: 11px;
+  color: #27485b;
+  text-transform: none;
+  margin-bottom: 10px;
+}
+.nav-btn, .v2-mode-btn, .v2-action-btn, .v2-upload-btn, .vt-btn, .sim-btn {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: none;
+}
+.v2-controlbar {
+  max-width: min(820px, calc(100% - 260px));
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  justify-content: flex-start;
+  scrollbar-width: none;
+}
+.v2-controlbar::-webkit-scrollbar { display: none; }
+.drawer-close {
+  display: none;
+  border: 1px solid rgba(14,86,116,0.14);
+  border-radius: 7px;
+  background: #f4f8fb;
+  color: #416274;
+  font: 700 11px var(--ui-font);
+  padding: 5px 9px;
+  cursor: pointer;
+}
+.v2-drawer-btn { display: none; }
+.v2-methods-panel {
+  background: linear-gradient(180deg, #ffffff, #f7fbfd);
+}
+.v2-method-summary {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+.v2-method-card {
+  border: 1px solid rgba(14,86,116,0.12);
+  border-radius: 8px;
+  background: #ffffff;
+  padding: 9px;
+}
+.v2-method-card strong {
+  display: block;
+  color: #102433;
+  font-size: 12px;
+  font-weight: 700;
+}
+.v2-method-card span {
+  display: block;
+  margin-top: 4px;
+  color: #416274;
+  font-size: 11px;
+  line-height: 1.35;
+}
+.v2-method-meter {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px;
+  align-items: center;
+  margin-top: 8px;
+  border: 1px solid rgba(14,86,116,0.12);
+  border-radius: 8px;
+  padding: 8px 9px;
+  background: #f7fbfd;
+}
+.v2-method-meter strong {
+  font-size: 11px;
+  color: #27485b;
+}
+.v2-method-meter span {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: #087fa7;
+}
+.v2-lineage-grid {
+  display: grid;
+  gap: 7px;
+}
+.v2-lineage-card {
+  border: 1px solid rgba(14,86,116,0.12);
+  border-radius: 8px;
+  background: #f7fbfd;
+  padding: 9px;
+}
+.v2-lineage-card strong {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  color: #102433;
+  font-size: 12px;
+}
+.v2-lineage-card strong span {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: #14845f;
+}
+.v2-lineage-card p {
+  margin-top: 5px;
+  color: #416274;
+  font-size: 11px;
+  line-height: 1.35;
+}
+.bottom-bar {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-auto-rows: minmax(0, 1fr);
+  min-height: 0;
+}
+.chart-cell {
+  display: grid;
+  grid-template-rows: auto auto minmax(0, 1fr);
+  gap: 4px;
+  min-width: 0;
+  min-height: 0;
+  padding: 12px;
+}
+.chart-cell-title {
+  font-size: 12px;
+  color: #087fa7;
+  text-transform: none;
+  margin: 0;
+}
+.chart-cell-sub {
+  font-family: var(--ui-font);
+  font-size: 10px;
+  color: #6b8391;
+  margin: 0 0 4px 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.chart-wrap {
+  min-height: 0;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+.chart-wrap canvas {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+}
+@media (max-width: 1279px) {
+  :root {
+    --dashboard-pad: 8px;
+    --dashboard-gap: 8px;
+  }
+  html, body { overflow: hidden; }
+  .app {
+    height: 100dvh;
+    min-height: 0;
+    grid-template-columns: 1fr;
+    grid-template-rows: 56px minmax(0, 1fr) minmax(252px, 32dvh);
+    grid-template-areas:
+      "header"
+      "globe"
+      "bottom";
+  }
+  header {
+    min-height: 0;
+    padding: 0 10px;
+    gap: 8px;
+  }
+  .hdr-logo { width: 28px; height: 28px; }
+  .hdr-title { font-size: 14px; }
+  .hdr-sub, .hdr-right { display: none !important; }
+  .hdr-brand { gap: 8px; flex: 0 0 auto; }
+  .hdr-center {
+    min-width: 0;
+    flex: 1 1 auto;
+    justify-content: flex-end;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    scrollbar-width: none;
+  }
+  .hdr-center::-webkit-scrollbar { display: none; }
+  .nav-btn {
+    flex: 0 0 auto;
+    min-height: 28px;
+    padding: 5px 9px;
+    font-size: 10px;
+  }
+  .left-panel, .right-panel {
+    position: fixed;
+    top: 8px;
+    bottom: 8px;
+    width: min(430px, calc(100vw - 28px));
+    z-index: 900;
+    grid-row: auto;
+    border-radius: 12px;
+    transition: transform 0.24s ease, opacity 0.24s ease;
+    opacity: 0;
+    pointer-events: none;
+  }
+  .left-panel {
+    left: 8px;
+    transform: translateX(calc(-100% - 24px));
+  }
+  .right-panel {
+    right: 8px;
+    transform: translateX(calc(100% + 24px));
+  }
+  .drawer-left-open .left-panel,
+  .drawer-right-open .right-panel {
+    transform: translateX(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .drawer-close { display: inline-flex; align-items: center; }
+  .v2-drawer-btn { display: inline-flex; }
+  .globe-area {
+    min-height: 0;
+    border-radius: 12px;
+  }
+  .view-toggle {
+    top: 8px;
+    left: 8px;
+    padding: 3px;
+  }
+  .vt-btn {
+    min-height: 26px;
+    padding: 4px 8px;
+    font-size: 10px;
+  }
+  .v2-controlbar {
+    top: 42px;
+    left: 8px;
+    right: 8px;
+    max-width: none;
+    transform: none;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    max-height: 104px;
+    overflow-y: auto;
+    padding: 4px;
+    gap: 4px;
+  }
+  .v2-mode-btn, .v2-action-btn, .v2-upload-btn {
+    flex: 0 0 auto;
+    min-height: 28px;
+    padding: 5px 8px;
+    font-size: 10px;
+  }
+  .map-hud {
+    left: 8px;
+    right: 8px;
+    top: auto;
+    bottom: 54px;
+    min-width: 0;
+    max-height: 50px;
+    padding: 8px 10px;
+    overflow: hidden;
+  }
+  .map-hud .hud-title,
+  .map-hud .hud-divider,
+  .map-hud .hud-row:not(:last-child) {
+    display: none;
+  }
+  .map-hud .hud-row { margin: 0; gap: 10px; }
+  .map-hud .hud-key, .map-hud .hud-val { font-size: 10px; }
+  .sim-toolbar {
+    left: 8px;
+    right: 8px;
+    bottom: 8px;
+    min-height: 38px;
+    padding: 6px 8px;
+    gap: 8px;
+    flex-wrap: nowrap;
+  }
+  .sim-label { font-size: 10px; }
+  .sim-val { min-width: 72px; font-size: 10px; }
+  .sim-btn {
+    min-height: 26px;
+    padding: 4px 7px;
+    font-size: 10px;
+  }
+  .bottom-bar {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: repeat(2, minmax(0, 1fr));
+  }
+  .chart-cell {
+    padding: 8px 10px;
+    border-right: 1px solid rgba(14,86,116,0.10);
+    border-bottom: 1px solid rgba(14,86,116,0.10);
+  }
+  .chart-cell:nth-child(2n) { border-right: none; }
+  .chart-cell:nth-child(n+3) { border-bottom: none; }
+  .chart-cell-title { font-size: 10px; }
+  .chart-cell-sub { font-size: 9px; }
+  .v2-compare {
+    bottom: 58px;
+    max-height: calc(100% - 128px);
+    grid-template-columns: 1fr;
+    overflow: auto;
+  }
+  .v2-export-menu {
+    position: fixed;
+    top: 64px;
+    right: 14px;
+    left: 14px;
+    transform: none;
+    min-width: 0;
+  }
+  .v2-demo-card {
+    right: 14px;
+    left: 14px;
+    bottom: 62px;
+    width: auto;
+  }
+}
+@media (max-width: 430px) {
+  .app {
+    grid-template-rows: 54px minmax(0, 1fr) minmax(280px, 34dvh);
+  }
+  .hdr-title { font-size: 13px; }
+  .bottom-bar { border-radius: 10px; }
+  .chart-cell { padding: 7px 8px; }
+  .chart-cell-title { font-size: 9px; }
+  .chart-cell-sub { font-size: 8px; }
+  .sim-btn { display: none; }
+  .sim-btn#sim-play-btn { display: inline-flex; }
+}
 </style>
 </head>
 <body>
@@ -852,6 +1234,7 @@ header {
   <div class="panel-hdr">
     <span class="panel-title">Key Indicators</span>
     <span class="panel-tag">REAL-TIME</span>
+    <button class="drawer-close" onclick="closeV2Drawers()" aria-label="Close indicators panel">Close</button>
   </div>
   <div class="left-scroll">
 
@@ -1130,6 +1513,8 @@ header {
     <button class="v2-mode-btn" data-mode="ops" onclick="setStakeholderMode('ops')">Operations</button>
     <button class="v2-mode-btn" data-mode="evidence" onclick="setStakeholderMode('evidence')">Evidence</button>
     <button class="v2-mode-btn" data-mode="technical" onclick="setStakeholderMode('technical')">Technical</button>
+    <button class="v2-action-btn v2-drawer-btn" onclick="toggleV2Drawer('left')">Indicators</button>
+    <button class="v2-action-btn v2-drawer-btn" onclick="toggleV2Drawer('right')">Methods</button>
     <button class="v2-action-btn" id="compare-toggle" onclick="toggleCompareMode()">Compare</button>
     <button class="v2-action-btn" id="presentation-toggle" onclick="togglePresentationMode()">Present</button>
     <button class="v2-action-btn v2-export-primary" onclick="toggleExportMenu()">Export Suite</button>
@@ -1277,8 +1662,37 @@ header {
   <div class="panel-hdr">
     <span class="panel-title">AI Twin Engine</span>
     <span class="panel-tag">SOVEREIGN</span>
+    <button class="drawer-close" onclick="closeV2Drawers()" aria-label="Close methods panel">Close</button>
   </div>
   <div class="right-scroll">
+
+    <!-- V2 METHODS / EVIDENCE SUMMARY -->
+    <div class="section v2-methods-panel" data-tier="exec">
+      <div class="sec-label">Methods / Evidence</div>
+      <div class="v2-note">Research-grade mode keeps each evidence family traceable: source, variable, cadence, limitation and export metadata stay visible before interpretation.</div>
+      <div class="v2-method-summary" style="margin-top:8px;">
+        <div class="v2-method-card">
+          <strong>Water balance</strong>
+          <span>River inflow, evaporation pressure, precipitation and shoreline hypsometry are treated as separate signals.</span>
+        </div>
+        <div class="v2-method-card">
+          <strong>Calibration overlay</strong>
+          <span>User CSV/JSON observations adjust confidence diagnostics without replacing the original Khazar data layout.</span>
+        </div>
+        <div class="v2-method-card">
+          <strong>Uncertainty</strong>
+          <span>Scenario confidence is exported with visible layer state, active forecast day and calibration provenance.</span>
+        </div>
+        <div class="v2-method-card">
+          <strong>Source lineage</strong>
+          <span>Copernicus, ERA5, NASA, Landsat, EMODnet, GloFAS, GRDC and OSM feeds remain citable.</span>
+        </div>
+      </div>
+      <div class="v2-method-meter">
+        <strong>Evidence readiness</strong>
+        <span>84% · audit export ready</span>
+      </div>
+    </div>
 
     <!-- PIPELINE -->
     <div class="section" data-tier="ops">
@@ -1586,15 +2000,31 @@ header {
 
     <!-- V2 CITABLE SOURCE LINKS -->
     <div class="section" data-tier="technical">
-      <div class="sec-label">Citable Source Registry</div>
-      <div class="v2-list">
-        <div class="v2-row"><strong>Copernicus Marine</strong><a class="v2-source-link" href="https://data.marine.copernicus.eu/" target="_blank" rel="noopener">data.marine.copernicus.eu</a></div>
-        <div class="v2-row"><strong>ERA5 / CDS</strong><a class="v2-source-link" href="https://cds.climate.copernicus.eu/" target="_blank" rel="noopener">cds.climate.copernicus.eu</a></div>
-        <div class="v2-row"><strong>NASA OB.DAAC</strong><a class="v2-source-link" href="https://www.earthdata.nasa.gov/centers/ob-daac" target="_blank" rel="noopener">earthdata.nasa.gov</a></div>
-        <div class="v2-row"><strong>USGS Landsat</strong><a class="v2-source-link" href="https://www.usgs.gov/land-resources/nli/landsat/landsat-data-access" target="_blank" rel="noopener">usgs.gov/landsat</a></div>
-        <div class="v2-row"><strong>EMODnet Bathymetry</strong><a class="v2-source-link" href="https://emodnet.ec.europa.eu/en/bathymetry" target="_blank" rel="noopener">emodnet.ec.europa.eu</a></div>
-        <div class="v2-row"><strong>GloFAS / CEMS</strong><a class="v2-source-link" href="https://confluence.ecmwf.int/display/CEMS/Data+Access" target="_blank" rel="noopener">confluence.ecmwf.int</a></div>
-        <div class="v2-row"><strong>GRDC</strong><a class="v2-source-link" href="https://grdc.bafg.de/data/data_portal/" target="_blank" rel="noopener">grdc.bafg.de</a></div>
+      <div class="sec-label">Source Lineage Registry</div>
+      <div class="v2-lineage-grid">
+        <div class="v2-lineage-card">
+          <strong>Marine physics <span>High</span></strong>
+          <p>Copernicus Marine products supply sea level, SST, salinity and current context. Limitation: gridded products require local validation near shallow northern coastlines.</p>
+        </div>
+        <div class="v2-lineage-card">
+          <strong>Climate forcing <span>High</span></strong>
+          <p>ERA5 supports wind, precipitation and evaporation-pressure interpretation. Limitation: reanalysis cells cannot replace station-level microclimate measurements.</p>
+        </div>
+        <div class="v2-lineage-card">
+          <strong>Optical ecology <span>Medium</span></strong>
+          <p>Sentinel-3 OLCI and NASA Ocean Color inform chlorophyll, turbidity and bloom alerts. Limitation: cloud, aerosol and coastal adjacency flags must be respected.</p>
+        </div>
+        <div class="v2-lineage-card">
+          <strong>Hydrology and gauges <span>Medium</span></strong>
+          <p>GloFAS and GRDC provide river discharge priors for Volga, Ural, Kura and Terek. Limitation: restricted national gauges improve confidence when uploaded.</p>
+        </div>
+        <div class="v2-list" style="margin-top:2px;">
+          <div class="v2-row"><strong>Copernicus Marine</strong><a class="v2-source-link" href="https://data.marine.copernicus.eu/" target="_blank" rel="noopener">data.marine.copernicus.eu</a></div>
+          <div class="v2-row"><strong>ERA5 / CDS</strong><a class="v2-source-link" href="https://cds.climate.copernicus.eu/" target="_blank" rel="noopener">cds.climate.copernicus.eu</a></div>
+          <div class="v2-row"><strong>NASA OB.DAAC</strong><a class="v2-source-link" href="https://www.earthdata.nasa.gov/centers/ob-daac" target="_blank" rel="noopener">earthdata.nasa.gov</a></div>
+          <div class="v2-row"><strong>USGS Landsat</strong><a class="v2-source-link" href="https://www.usgs.gov/land-resources/nli/landsat/landsat-data-access" target="_blank" rel="noopener">usgs.gov/landsat</a></div>
+          <div class="v2-row"><strong>EMODnet Bathymetry</strong><a class="v2-source-link" href="https://emodnet.ec.europa.eu/en/bathymetry" target="_blank" rel="noopener">emodnet.ec.europa.eu</a></div>
+        </div>
       </div>
     </div>
 
@@ -1950,6 +2380,25 @@ const V2_SOURCES = [
   {name:'GRDC Data Portal', url:'https://grdc.bafg.de/data/data_portal/', domain:'hydrology', cadence:'station archive', role:'Observed river discharge archive', variables:'gauge discharge, historical runoff'},
   {name:'OpenStreetMap Overpass API', url:'https://overpass-api.de/', domain:'infrastructure', cadence:'community updated', role:'Ports, roads, energy and coastal infrastructure context', variables:'ports, pipelines, platforms, roads, settlements'}
 ];
+const V2_SOURCE_QUALITY = {
+  ocean: {confidence:'High', limitation:'Gridded products need local validation in shallow northern Caspian cells.'},
+  interoperability: {confidence:'High', limitation:'Catalogue availability varies by service and product release.'},
+  climate: {confidence:'High', limitation:'Reanalysis cells cannot replace local station measurements.'},
+  optical: {confidence:'Medium', limitation:'Cloud, aerosol, sunglint and coastal adjacency flags affect retrieval quality.'},
+  'land change': {confidence:'High', limitation:'Coastline extraction depends on water mask threshold and acquisition season.'},
+  bathymetry: {confidence:'Medium', limitation:'Bathymetry priors are less precise in rapidly changing shallow margins.'},
+  hydrology: {confidence:'Medium', limitation:'Restricted national gauges can materially improve inflow confidence.'},
+  infrastructure: {confidence:'Medium', limitation:'Community updates and OSINT attributes require verification for critical use.'}
+};
+const V2_METHOD_EVIDENCE = {
+  framing:'Endorheic lake-basin water balance: river inflow, evaporation pressure, precipitation, wind setup and shoreline hypsometry are interpreted as separate evidence families.',
+  calibration:'User-uploaded CSV/JSON observations are validation overlays; they never replace the baseline Khazar data layout.',
+  uncertainty:'Scenario confidence is exported with forecast day, visible layer state, source lineage and calibration diagnostics.',
+  reproducibility:'Research exports include setup state, source manifest, forecast series and comparison deltas for audit review.'
+};
+function enrichV2Source(source){
+  return {...source, ...(V2_SOURCE_QUALITY[source.domain] || {confidence:'Review', limitation:'No explicit limitation registered.'})};
+}
 const V2_SCENARIOS = {
   baseline: {label:'Baseline forecast', wl:-28.6, area:346, inflow:82, alert:68, confidence:84},
   dry: {label:'Low inflow stress', wl:-28.9, area:341, inflow:66, alert:86, confidence:76},
@@ -2107,6 +2556,18 @@ function stepDemo(delta){
   V2_STATE.demoIndex = (V2_STATE.demoIndex + delta + V2_DEMO.length) % V2_DEMO.length;
   renderDemoCard();
 }
+function closeV2Drawers(){
+  document.body.classList.remove('drawer-left-open','drawer-right-open');
+}
+function toggleV2Drawer(side){
+  const left = side === 'left';
+  const right = side === 'right';
+  document.body.classList.toggle('drawer-left-open', left && !document.body.classList.contains('drawer-left-open'));
+  document.body.classList.toggle('drawer-right-open', right && !document.body.classList.contains('drawer-right-open'));
+  if(left) document.body.classList.remove('drawer-right-open');
+  if(right) document.body.classList.remove('drawer-left-open');
+  setWorkspaceStatus(left ? 'Indicator drawer ready.' : right ? 'Methods and evidence drawer ready.' : 'Dashboard ready.');
+}
 function toggleExportMenu(){
   const menu = document.getElementById('v2-export-menu');
   menu?.classList.toggle('open');
@@ -2137,7 +2598,8 @@ function currentExportPayload(){
     tile: currentTile,
     visibleLayers: Object.fromEntries(Object.entries(V2_LAYER_GROUPS).map(([key, group]) => [key, map.hasLayer(group)])),
     calibration: V2_STATE.calibration ? {name: V2_STATE.calibration.name, rows: V2_STATE.calibration.rows, errors: V2_STATE.calibration.errors} : null,
-    dataSources: V2_SOURCES,
+    methodEvidence: V2_METHOD_EVIDENCE,
+    dataSources: V2_SOURCES.map(enrichV2Source),
     scenarioA: scenarioSnapshot(document.getElementById('scenario-a')?.value || 'baseline'),
     scenarioB: scenarioSnapshot(document.getElementById('scenario-b')?.value || 'dry')
   };
@@ -2154,8 +2616,8 @@ function exportForecastCSV(){
   downloadBlob('khazar_v2_forecast_series.csv', rows.map(r => r.join(',')).join('\n'), 'text/csv');
 }
 function exportSourceManifestCSV(){
-  const rows = [['name','domain','cadence','variables','role','url']];
-  V2_SOURCES.forEach(s => rows.push([s.name, s.domain, s.cadence, s.variables, s.role, s.url].map(v => `"${String(v).replace(/"/g,'""')}"`)));
+  const rows = [['name','domain','cadence','variables','role','confidence','limitation','url']];
+  V2_SOURCES.map(enrichV2Source).forEach(s => rows.push([s.name, s.domain, s.cadence, s.variables, s.role, s.confidence, s.limitation, s.url].map(v => `"${String(v).replace(/"/g,'""')}"`)));
   downloadBlob('khazar_v2_source_manifest.csv', rows.map(r => r.join(',')).join('\n'), 'text/csv');
 }
 function exportResearchPack(){
@@ -2182,7 +2644,8 @@ function exportResearchPack(){
       'Compare scenarios as deltas from one live browser state so stakeholders can inspect assumptions.',
       'Export source manifests and setup state alongside visual outputs for reproducible review.'
     ],
-    sourceManifest: V2_SOURCES,
+    methodEvidence: V2_METHOD_EVIDENCE,
+    sourceManifest: V2_SOURCES.map(enrichV2Source),
     activeState: p,
     acceptanceChecks: [
       'Map renders with Leaflet layers.',
@@ -2252,6 +2715,7 @@ document.addEventListener('keydown', event => {
   const tag = (event.target?.tagName || '').toLowerCase();
   if(['input','textarea','select'].includes(tag)) return;
   if(event.key === 'p' || event.key === 'P') { event.preventDefault(); togglePresentationMode(); }
+  if(event.key === 'Escape') { closeV2Drawers(); document.getElementById('v2-export-menu')?.classList.remove('open'); }
   if(V2_STATE.presentation && event.key === 'ArrowRight') { event.preventDefault(); stepDemo(1); }
   if(V2_STATE.presentation && event.key === 'ArrowLeft') { event.preventDefault(); stepDemo(-1); }
 });
@@ -2272,6 +2736,8 @@ function initV2(){
     switchView,
     setLayerState,
     toggleV2Layer,
+    toggleV2Drawer,
+    closeV2Drawers,
     toggleCompareMode,
     togglePresentationMode,
     exportSetupJSON,
@@ -2291,11 +2757,13 @@ initV2();
 // ════════════════════════════════════════════
 // CHARTS
 // ════════════════════════════════════════════
-const CHART_DEF = { responsive:true, maintainAspectRatio:false, animation:{duration:600} };
-const gridColor = 'rgba(0,200,255,0.06)';
+const CHART_DEF = { responsive:true, maintainAspectRatio:false, resizeDelay:80, animation:{duration:450}, layout:{padding:{top:2,right:4,bottom:0,left:0}} };
+const chartFont = 'Outfit, sans-serif';
+const chartMono = 'Space Mono';
+const gridColor = 'rgba(8,127,167,0.08)';
 const tickColor = '#3d6480';
-const xAxis = { ticks:{font:{size:8,family:'Space Mono'},color:tickColor,maxRotation:0}, grid:{display:false} };
-const yAxis = { ticks:{font:{size:8,family:'Space Mono'},color:tickColor}, grid:{color:gridColor} };
+const xAxis = { ticks:{font:{size:10,family:chartMono},color:tickColor,maxRotation:0}, grid:{display:false} };
+const yAxis = { ticks:{font:{size:10,family:chartMono},color:tickColor}, grid:{color:gridColor} };
 
 // Water Level
 new Chart(document.getElementById('wlChart'),{
@@ -2309,8 +2777,8 @@ new Chart(document.getElementById('wlChart'),{
 new Chart(document.getElementById('inflowChart'),{
   type:'doughnut',
   data:{labels:['Volga','Kura','Ural','Terek','Others'],
-    datasets:[{data:[80,5,5,4,6],backgroundColor:['#00c8ff','#00e5d0','#7c4dff','#00e676','#3d6480'],borderWidth:2,borderColor:'#0c1a2e'}]},
-  options:{...CHART_DEF,plugins:{legend:{position:'right',labels:{font:{size:8,family:'Space Mono'},color:tickColor,boxWidth:8,padding:4}}},cutout:'55%'}
+    datasets:[{data:[80,5,5,4,6],backgroundColor:['#00c8ff','#00e5d0','#7c4dff','#00e676','#3d6480'],borderWidth:2,borderColor:'#ffffff'}]},
+  options:{...CHART_DEF,plugins:{legend:{position:'right',labels:{font:{size:10,family:chartFont},color:tickColor,boxWidth:8,padding:4}}},cutout:'58%'}
 });
 
 // Surface area bar
@@ -2330,8 +2798,27 @@ new Chart(document.getElementById('ensChart'),{
       {label:'CorrDiff',data:[-28.60,-28.64,-28.67,-28.65,-28.63,-28.61,-28.59],borderColor:'#00e5d0',borderWidth:1.5,pointRadius:2,tension:0.4,fill:false,borderDash:[4,3]},
       {label:'VIC Hydro',data:[-28.62,-28.65,-28.68,-28.66,-28.63,-28.61,-28.57],borderColor:'#f5a623',borderWidth:1,pointRadius:1,tension:0.4,fill:false,borderDash:[2,4]}
     ]},
-  options:{...CHART_DEF,plugins:{legend:{labels:{font:{size:8,family:'Space Mono'},color:tickColor,boxWidth:8,padding:6}}},scales:{x:xAxis,y:{...yAxis,ticks:{...yAxis.ticks,callback:v=>v+'m',font:{size:7,family:'Space Mono'}}}}}
+  options:{...CHART_DEF,plugins:{legend:{labels:{font:{size:10,family:chartFont},color:tickColor,boxWidth:8,padding:6}}},scales:{x:xAxis,y:{...yAxis,ticks:{...yAxis.ticks,callback:v=>v+'m',font:{size:9,family:chartMono}}}}}
 });
+function syncV2ChartSizing(){
+  ['wlChart','inflowChart','areaChart','ensChart'].forEach(id => {
+    const canvas = document.getElementById(id);
+    const wrap = canvas?.parentElement;
+    const chart = canvas ? Chart.getChart(canvas) : null;
+    if(!canvas || !wrap || !chart) return;
+    const rect = wrap.getBoundingClientRect();
+    canvas.style.width = '100%';
+    canvas.style.height = '100%';
+    if(rect.width > 0 && rect.height > 0) chart.resize(Math.floor(rect.width), Math.floor(rect.height));
+  });
+}
+let v2ChartResizeTimer = null;
+window.addEventListener('resize', () => {
+  clearTimeout(v2ChartResizeTimer);
+  v2ChartResizeTimer = setTimeout(syncV2ChartSizing, 120);
+});
+setTimeout(syncV2ChartSizing, 120);
+setTimeout(syncV2ChartSizing, 500);
 </script>
 </body>
 </html>
