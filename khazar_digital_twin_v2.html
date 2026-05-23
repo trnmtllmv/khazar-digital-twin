@@ -1805,6 +1805,134 @@ header, .left-panel, .right-panel, .globe-area, .bottom-bar {
     display: none;
   }
 }
+
+/* ════════════════════════════════════════════════════
+   V2 MAP-FIRST UX REFINEMENT
+   Keeps the primary map/charts clear while moving
+   secondary workflows into grouped popups and drawers.
+════════════════════════════════════════════════════ */
+@media (min-width: 1280px) {
+  .app {
+    grid-template-columns: clamp(240px, 18vw, 285px) minmax(0, 1fr) clamp(250px, 19vw, 310px);
+  }
+}
+.left-panel,
+.right-panel {
+  background: rgba(255,255,255,0.96);
+}
+.v2-controlbar {
+  width: auto;
+  max-width: min(620px, calc(100% - 280px));
+}
+.v2-controlbar .v2-drawer-btn,
+.v2-controlbar #khz-board-toggle,
+.v2-controlbar #compare-toggle,
+.v2-controlbar #presentation-toggle {
+  display: none !important;
+}
+.khz-quick-actions {
+  display: none !important;
+}
+.compare-mode .map-hud {
+  display: none !important;
+}
+.khz-popup {
+  width: min(390px, calc(100vw - 28px));
+  max-height: min(720px, calc(100dvh - 112px));
+  overflow: auto;
+}
+.khz-menu-section {
+  display: grid;
+  gap: 5px;
+  padding: 7px 6px;
+  border-bottom: 1px solid rgba(14,86,116,0.10);
+}
+.khz-menu-section:last-child {
+  border-bottom: 0;
+}
+.khz-menu-section-label {
+  padding: 0 4px 2px;
+  color: #087fa7;
+  font: 800 10px var(--mono);
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+}
+.khz-menu-duo {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 5px;
+}
+.khz-popup button.khz-menu-item {
+  min-height: 48px;
+  padding: 8px 9px;
+}
+.khz-popup button.khz-menu-item.khz-compact {
+  grid-template-columns: 1fr;
+}
+.khz-popup button.khz-menu-item.khz-compact small {
+  display: none;
+}
+.country-row,
+.tile-pill {
+  font: inherit;
+  cursor: pointer;
+}
+.country-row {
+  border: 0;
+  color: inherit;
+}
+.tile-pill {
+  border: 1px solid var(--edge);
+  background: transparent;
+  color: var(--text3);
+}
+button.country-row {
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  appearance: none;
+}
+button.tile-pill {
+  appearance: none;
+}
+.country-row:focus-visible,
+.tile-pill:focus-visible,
+.v2-mode-btn:focus-visible,
+.v2-action-btn:focus-visible,
+.vt-btn:focus-visible,
+.khz-menu-item:focus-visible {
+  outline: 2px solid rgba(8,127,167,0.55);
+  outline-offset: 2px;
+}
+.khz-audit-pass {
+  color: #14845f !important;
+}
+.khz-audit-warn {
+  color: #b87912 !important;
+}
+@media (max-width: 1440px) {
+  .v2-controlbar {
+    max-width: min(560px, calc(100% - 260px));
+  }
+  .v2-mode-btn,
+  .v2-action-btn {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+}
+@media (max-width: 1279px) {
+  .v2-controlbar .v2-drawer-btn {
+    display: inline-flex !important;
+  }
+  .v2-controlbar {
+    max-width: none;
+  }
+}
+@media (max-width: 520px) {
+  .khz-menu-duo {
+    grid-template-columns: 1fr;
+  }
+}
 </style>
 </head>
 <body>
@@ -1959,56 +2087,56 @@ header, .left-panel, .right-panel, .globe-area, .bottom-bar {
     <!-- LITTORAL STATES -->
     <div class="section" data-tier="exec">
       <div class="sec-label">Littoral States</div>
-      <div class="country-row" onclick="flyTo([40.4,49.8],8)">
+      <button type="button" class="country-row" onclick="flyTo([40.4,49.8],8)" aria-label="Fly to Azerbaijan">
         <span class="flag">🇦🇿</span>
         <div class="c-info">
           <div class="c-name">Azerbaijan</div>
           <div class="c-sub">850 km · Baku Capital · ACG oil field</div>
         </div>
         <span class="c-share">13%</span>
-      </div>
-      <div class="country-row" onclick="flyTo([44.5,52.0],7)">
+      </button>
+      <button type="button" class="country-row" onclick="flyTo([44.5,52.0],7)" aria-label="Fly to Kazakhstan">
         <span class="flag">🇰🇿</span>
         <div class="c-info">
           <div class="c-name">Kazakhstan</div>
           <div class="c-sub">1,894 km · Kashagan · Tengiz field</div>
         </div>
         <span class="c-share">30%</span>
-      </div>
-      <div class="country-row" onclick="flyTo([37.5,50.5],8)">
+      </button>
+      <button type="button" class="country-row" onclick="flyTo([37.5,50.5],8)" aria-label="Fly to Iran">
         <span class="flag">🇮🇷</span>
         <div class="c-info">
           <div class="c-name">Iran</div>
           <div class="c-sub">740 km · Bandar Anzali port</div>
         </div>
         <span class="c-share">11%</span>
-      </div>
-      <div class="country-row" onclick="flyTo([46.0,48.5],8)">
+      </button>
+      <button type="button" class="country-row" onclick="flyTo([46.0,48.5],8)" aria-label="Fly to Russia">
         <span class="flag">🇷🇺</span>
         <div class="c-info">
           <div class="c-name">Russia</div>
           <div class="c-sub">695 km · Astrakhan · Volga delta</div>
         </div>
         <span class="c-share">11%</span>
-      </div>
-      <div class="country-row" onclick="flyTo([39.5,53.0],8)">
+      </button>
+      <button type="button" class="country-row" onclick="flyTo([39.5,53.0],8)" aria-label="Fly to Turkmenistan">
         <span class="flag">🇹🇲</span>
         <div class="c-info">
           <div class="c-name">Turkmenistan</div>
           <div class="c-sub">1,200 km · Turkmenbashi · Cheleken</div>
         </div>
         <span class="c-share">19%</span>
-      </div>
+      </button>
     </div>
 
     <!-- MAP LAYERS -->
     <div class="section" data-tier="ops">
       <div class="sec-label khz-label-row"><span>Map Layers</span><button class="khz-info-dot" onclick="showKhzInfo('layers')" aria-label="Layer guide">i</button></div>
       <div class="tile-row">
-        <div class="tile-pill active" data-tile="satellite" onclick="setTile('satellite',this)">SATELLITE</div>
-        <div class="tile-pill" data-tile="osm" onclick="setTile('osm',this)">OSM</div>
-        <div class="tile-pill" data-tile="topo" onclick="setTile('topo',this)">TOPO</div>
-        <div class="tile-pill" data-tile="dark" onclick="setTile('dark',this)">NIGHT</div>
+        <button type="button" class="tile-pill active" data-tile="satellite" onclick="setTile('satellite',this)">SATELLITE</button>
+        <button type="button" class="tile-pill" data-tile="osm" onclick="setTile('osm',this)">OSM</button>
+        <button type="button" class="tile-pill" data-tile="topo" onclick="setTile('topo',this)">TOPO</button>
+        <button type="button" class="tile-pill" data-tile="dark" onclick="setTile('dark',this)">NIGHT</button>
       </div>
       <div class="layer-row">
         <div class="layer-dot" style="background:#00c8ff;"></div>
@@ -2153,34 +2281,99 @@ header, .left-panel, .right-panel, .globe-area, .bottom-bar {
     <div class="khz-popup-head">
       <div>
         <div class="khz-popup-title">Workspace Menu</div>
-        <div class="khz-popup-sub">Andrew-style board, search, help and guide notes.</div>
+        <div class="khz-popup-sub">Map-first navigation, research tools, evidence and exports.</div>
       </div>
       <button class="khz-popup-close" data-khz-close="menu" onclick="closeKhazarMenu()" aria-label="Close workspace menu">×</button>
     </div>
-    <button class="khz-menu-item" onclick="openKhzCustomBoard()" role="menuitem">
-      <span>Custom Board<small>Pin the indicators, scenarios and evidence cards you need.</small></span>
-      <span class="khz-menu-key">B</span>
-    </button>
-    <button class="khz-menu-item" onclick="openKhzSearch()" role="menuitem">
-      <span>Search / Commands<small>Jump to layers, modes, exports, views and research sections.</small></span>
-      <span class="khz-menu-key">Ctrl K</span>
-    </button>
-    <button class="khz-menu-item" onclick="toggleKhzKeyboardHelp(true)" role="menuitem">
-      <span>Keyboard Shortcuts<small>Fast navigation for presentation and research use.</small></span>
-      <span class="khz-menu-key">?</span>
-    </button>
-    <button class="khz-menu-item" onclick="showKhzInfo('guide')" role="menuitem">
-      <span>Information Notes<small>Concise user guide for calibration, layers, compare and exports.</small></span>
-      <span class="khz-menu-key">I</span>
-    </button>
-    <button class="khz-menu-item" onclick="focusKhzPanel('right'); closeKhazarMenu();" role="menuitem">
-      <span>Methods / Evidence<small>Open technical workflow, source registry and assumptions.</small></span>
-      <span class="khz-menu-key">G</span>
-    </button>
-    <button class="khz-menu-item" onclick="openV2ExportFromMenu(event)" role="menuitem">
-      <span>Export Suite<small>Download JSON, CSV, comparison and PNG research outputs.</small></span>
-      <span class="khz-menu-key">E</span>
-    </button>
+    <div class="khz-menu-section" role="none">
+      <div class="khz-menu-section-label">Navigate</div>
+      <button class="khz-menu-item" onclick="openKhzSearch()" role="menuitem">
+        <span>Search / Commands<small>Jump to layers, modes, exports, views and research sections.</small></span>
+        <span class="khz-menu-key">Ctrl K</span>
+      </button>
+      <div class="khz-menu-duo" role="none">
+        <button class="khz-menu-item khz-compact" onclick="showKhzInfo('mapviews')" role="menuitem">
+          <span>Map Views<small>2D, hybrid and globe preview notes.</small></span>
+          <span class="khz-menu-key">1-5</span>
+        </button>
+        <button class="khz-menu-item khz-compact" onclick="showKhzInfo('modes')" role="menuitem">
+          <span>Stakeholder Modes<small>Executive, operations, evidence and technical.</small></span>
+          <span class="khz-menu-key">Modes</span>
+        </button>
+      </div>
+    </div>
+    <div class="khz-menu-section" role="none">
+      <div class="khz-menu-section-label">Research Tools</div>
+      <button class="khz-menu-item" onclick="openKhzCustomBoard()" role="menuitem">
+        <span>Custom Board<small>Pin the indicators, scenarios and evidence cards you need.</small></span>
+        <span class="khz-menu-key">B</span>
+      </button>
+      <div class="khz-menu-duo" role="none">
+        <button class="khz-menu-item khz-compact" onclick="openKhzCompareFromMenu(event)" role="menuitem">
+          <span>Compare Setups<small>Open scenario A/B analysis.</small></span>
+          <span class="khz-menu-key">C</span>
+        </button>
+        <button class="khz-menu-item khz-compact" onclick="openKhzPresentationFromMenu(event)" role="menuitem">
+          <span>Presentation<small>Launch the guided demo.</small></span>
+          <span class="khz-menu-key">P</span>
+        </button>
+      </div>
+      <button class="khz-menu-item" onclick="focusKhzPanel('left'); closeKhazarMenu();" role="menuitem">
+        <span>Indicators Panel<small>Open calibration, KPIs, states and layer controls.</small></span>
+        <span class="khz-menu-key">L</span>
+      </button>
+    </div>
+    <div class="khz-menu-section" role="none">
+      <div class="khz-menu-section-label">Evidence</div>
+      <button class="khz-menu-item" onclick="focusKhzPanel('right'); closeKhazarMenu();" role="menuitem">
+        <span>Methods / Evidence<small>Open technical workflow, source registry and assumptions.</small></span>
+        <span class="khz-menu-key">G</span>
+      </button>
+      <div class="khz-menu-duo" role="none">
+        <button class="khz-menu-item khz-compact" onclick="showKhzInfo('calibration')" role="menuitem">
+          <span>Calibration Guide<small>CSV and JSON upload rules.</small></span>
+          <span class="khz-menu-key">Cal</span>
+        </button>
+        <button class="khz-menu-item khz-compact" onclick="showKhzInfo('sources')" role="menuitem">
+          <span>Data Sources<small>Lineage, cadence and limitations.</small></span>
+          <span class="khz-menu-key">Src</span>
+        </button>
+      </div>
+    </div>
+    <div class="khz-menu-section" role="none">
+      <div class="khz-menu-section-label">Exports</div>
+      <button class="khz-menu-item" onclick="openV2ExportFromMenu(event)" role="menuitem">
+        <span>Export Suite<small>Download JSON, CSV, comparison and PNG research outputs.</small></span>
+        <span class="khz-menu-key">E</span>
+      </button>
+      <div class="khz-menu-duo" role="none">
+        <button class="khz-menu-item khz-compact" onclick="exportResearchPack(); closeKhazarMenu();" role="menuitem">
+          <span>Research Pack<small>Methods, sources and active state.</small></span>
+          <span class="khz-menu-key">JSON</span>
+        </button>
+        <button class="khz-menu-item khz-compact" onclick="exportSourceManifestCSV(); closeKhazarMenu();" role="menuitem">
+          <span>Source Manifest<small>Citable source registry.</small></span>
+          <span class="khz-menu-key">CSV</span>
+        </button>
+      </div>
+    </div>
+    <div class="khz-menu-section" role="none">
+      <div class="khz-menu-section-label">Help</div>
+      <button class="khz-menu-item" onclick="showKhzInfo('guide')" role="menuitem">
+        <span>Information Notes<small>Concise guide for calibration, layers, compare and exports.</small></span>
+        <span class="khz-menu-key">I</span>
+      </button>
+      <div class="khz-menu-duo" role="none">
+        <button class="khz-menu-item khz-compact" onclick="toggleKhzKeyboardHelp(true)" role="menuitem">
+          <span>Keyboard Shortcuts<small>Fast navigation for research use.</small></span>
+          <span class="khz-menu-key">?</span>
+        </button>
+        <button class="khz-menu-item khz-compact" onclick="showKhzAudit()" role="menuitem">
+          <span>UI Audit<small>Check buttons, overlays and labels.</small></span>
+          <span class="khz-menu-key">Audit</span>
+        </button>
+      </div>
+    </div>
   </div>
 
   <!-- V2 CUSTOM BOARD -->
@@ -3293,6 +3486,7 @@ function renderCompareMode(){
 }
 function toggleCompareMode(){
   V2_STATE.compare = !V2_STATE.compare;
+  document.body.classList.toggle('compare-mode', V2_STATE.compare);
   document.getElementById('v2-compare')?.classList.toggle('active', V2_STATE.compare);
   document.getElementById('compare-toggle')?.classList.toggle('active', V2_STATE.compare);
   renderCompareMode();
@@ -3304,6 +3498,7 @@ function togglePresentationMode(force){
   document.getElementById('presentation-toggle')?.classList.toggle('active', V2_STATE.presentation);
   document.getElementById('v2-demo-card')?.classList.toggle('active', V2_STATE.presentation);
   renderDemoCard();
+  setWorkspaceStatus(V2_STATE.presentation ? 'Presentation mode ready.' : 'Presentation mode closed.');
 }
 function renderDemoCard(){
   const item = V2_DEMO[V2_STATE.demoIndex];
@@ -3381,6 +3576,8 @@ function currentExportPayload(){
     customBoard: typeof loadKhzBoard === 'function' ? loadKhzBoard() : [],
     methodEvidence: V2_METHOD_EVIDENCE,
     dataSources: V2_SOURCES.map(enrichV2Source),
+    uiShell: {layout:'map-first', menu:'grouped hamburger', secondaryTools:'popup drawers', refinement:'V2 MAP-FIRST UX REFINEMENT'},
+    uiAudit: typeof runKhazarUiAudit === 'function' ? runKhazarUiAudit() : null,
     scenarioA: scenarioSnapshot(document.getElementById('scenario-a')?.value || 'baseline'),
     scenarioB: scenarioSnapshot(document.getElementById('scenario-b')?.value || 'dry')
   };
@@ -3798,6 +3995,19 @@ function closeKhazarMenu(){
   toggle?.classList.remove('active');
   toggle?.setAttribute('aria-expanded', 'false');
 }
+function openKhzCompareFromMenu(event){
+  event?.stopPropagation();
+  closeKhazarMenu();
+  if(!V2_STATE.compare) toggleCompareMode();
+  renderCompareMode();
+  setWorkspaceStatus('Compare mode ready.');
+}
+function openKhzPresentationFromMenu(event){
+  event?.stopPropagation();
+  closeKhazarMenu();
+  if(!V2_STATE.presentation) togglePresentationMode(true);
+  setWorkspaceStatus('Presentation mode ready.');
+}
 const KHZ_INFO_TOPICS = {
   guide: {
     kicker:'Guide',
@@ -3808,6 +4018,28 @@ const KHZ_INFO_TOPICS = {
       ['Search', 'Press Ctrl/Cmd+K or / to find views, modes, layers, sources, exports and actions without hunting through panels.'],
       ['Evidence', 'Calibration files become overlays and diagnostics; they never replace the original Khazar baseline data layout.'],
       ['Exports', 'Exports include the current mode, visible layers, forecast day, calibration status, custom board layout and source metadata.']
+    ]
+  },
+  mapviews: {
+    kicker:'Map Views',
+    title:'Map workspace notes',
+    sub:'The default shell keeps the map primary while deeper research tools stay in drawers and popups.',
+    cards:[
+      ['2D Map', 'Use the standard Leaflet workspace for reliable layer toggles, markers, search, forecast timeline and exports.'],
+      ['Hybrid', 'Hybrid view keeps satellite geography visible while emphasizing operational overlays and regional infrastructure.'],
+      ['3D Globe', 'The globe button shows a non-blocking preview notice; the live 2D map stays active until a sovereign WebGL globe service is connected.'],
+      ['Basemaps', 'Satellite, OSM, Topographic and Night basemaps are separate from research overlays so evidence layers remain auditable.']
+    ]
+  },
+  modes: {
+    kicker:'Stakeholders',
+    title:'Stakeholder mode notes',
+    sub:'Modes reduce visual load for different audiences without changing the original Khazar data layout.',
+    cards:[
+      ['Executive', 'Prioritizes headline KPIs, alerts, map context and a simplified forecast for decision briefings.'],
+      ['Operations', 'Keeps layer controls, infrastructure, pipeline status and scenario controls visible for technical operation.'],
+      ['Evidence', 'Surfaces calibration state, provenance, chart detail and source confidence for research review.'],
+      ['Technical', 'Shows assumptions, diagnostics, source lineage, export metadata and reproducibility fields.']
     ]
   },
   board: {
@@ -3841,6 +4073,16 @@ const KHZ_INFO_TOPICS = {
       ['Infrastructure', 'Energy markers and recession zones help compare environmental and operational exposure.']
     ]
   },
+  compare: {
+    kicker:'Compare',
+    title:'Scenario comparison notes',
+    sub:'Compare mode keeps two setups side by side while the map-first workspace remains usable.',
+    cards:[
+      ['Scenario A/B', 'Choose baseline, drought, restoration or industrial setups and compare the active forecast day.'],
+      ['Signals', 'The comparison table tracks selected setup, forecast day, water level, area loss, inflow stress, alert severity and confidence.'],
+      ['Exports', 'Comparison JSON and CSV preserve both sides with the same filenames already used by the app.']
+    ]
+  },
   methods: {
     kicker:'Methods',
     title:'Methods and evidence notes',
@@ -3860,6 +4102,17 @@ const KHZ_INFO_TOPICS = {
       ['Research pack JSON', 'Adds methods, research questions, source lineage, acceptance checks and active state.'],
       ['Source manifest CSV', 'Exports source, role, cadence, variables, confidence, limitation and URL fields.'],
       ['Comparison files', 'Export scenario A/B values as JSON or CSV when comparing setups.']
+    ]
+  },
+  sources: {
+    kicker:'Sources',
+    title:'Source registry notes',
+    sub:'The workflow separates source role, cadence, variables, confidence and limitation for citable research handoff.',
+    cards:[
+      ['Satellite and reanalysis', 'Copernicus Marine, Sentinel-3, MODIS, Landsat and ERA5 support altimetry, SST, chlorophyll, coastline and climate forcing context.'],
+      ['Hydrology', 'GloFAS, GRDC-style discharge records and national gauges inform river inflow stress without replacing the inline baseline.'],
+      ['Bathymetry and infrastructure', 'EMODnet/GEBCO-style bathymetry, ports, OSM and OSINT infrastructure layers support exposure mapping.'],
+      ['Limitations', 'All live/open feeds need cadence, coverage, licensing and uncertainty review before operational decision use.']
     ]
   }
 };
@@ -3900,6 +4153,10 @@ function khzSearchItems(){
     ...viewItems,
     ...layerItems,
     ['Custom board','tool','Open the draggable and resizable research board.', openKhzCustomBoard],
+    ['Map view guide','help','Explain 2D, hybrid, globe preview and basemap controls.', () => showKhzInfo('mapviews')],
+    ['Stakeholder modes','help','Explain Executive, Operations, Evidence and Technical modes.', () => showKhzInfo('modes')],
+    ['Compare guide','help','Explain scenario comparison and comparison exports.', () => showKhzInfo('compare')],
+    ['Source registry guide','source','Explain source lineage, cadence, confidence and limitations.', () => showKhzInfo('sources')],
     ['Information notes','help','Open contextual guide cards.', () => showKhzInfo('guide')],
     ['Keyboard shortcuts','help','Open shortcut reference.', () => toggleKhzKeyboardHelp(true)],
     ['Compare scenarios','analysis','Open side-by-side setup comparison.', () => { if(!V2_STATE.compare) toggleCompareMode(); }],
@@ -3912,6 +4169,7 @@ function khzSearchItems(){
     ['Forecast CSV','export','Download chart forecast series.', exportForecastCSV],
     ['Dashboard PNG','export','Download presentation summary image.', exportDashboardPNG],
     ['Calibration guide','help','Show CSV and JSON calibration requirements.', () => showKhzInfo('calibration')],
+    ['UI audit','help','Check visible buttons, overlay hoisting and map label semantics.', showKhzAudit],
     ...sourceItems
   ].map(([title, group, desc, run]) => ({title, group, desc, run, haystack: `${title} ${group} ${desc}`.toLowerCase()}));
 }
@@ -4043,6 +4301,81 @@ function initKhzAdvancedControls(){
     if(document.getElementById('khz-board-modal')?.classList.contains('open')) renderKhzCustomBoard();
   });
 }
+function khzIsVisible(el){
+  if(!el || !el.isConnected) return false;
+  const rect = el.getBoundingClientRect();
+  const style = window.getComputedStyle(el);
+  return rect.width > 0 && rect.height > 0 && style.visibility !== 'hidden' && style.display !== 'none' && Number(style.opacity || 1) > 0;
+}
+function khzButtonLabel(button){
+  return (button.getAttribute('aria-label') || button.textContent || button.id || button.className || 'button').trim().replace(/\s+/g, ' ').slice(0, 80);
+}
+function runKhazarUiAudit(){
+  const visibleButtons = [...document.querySelectorAll('button')].filter(khzIsVisible);
+  const buttonsWithoutAction = visibleButtons
+    .filter(button => !button.getAttribute('onclick') && !button.closest('.leaflet-control') && !button.closest('#khz-search-results'))
+    .map(button => ({
+      label: khzButtonLabel(button),
+      id: button.id || '',
+      classes: button.className || ''
+    }));
+  const markerIcons = [...document.querySelectorAll('.leaflet-marker-icon')];
+  const staticMarkerProblems = markerIcons
+    .filter(el => window.getComputedStyle(el).pointerEvents === 'none')
+    .filter(el => el.hasAttribute('role') || el.hasAttribute('tabindex') || el.getAttribute('aria-label'))
+    .length;
+  const interactiveMarkerMissingLabels = markerIcons
+    .filter(el => window.getComputedStyle(el).pointerEvents !== 'none')
+    .filter(el => !el.getAttribute('aria-label') && !el.getAttribute('title'))
+    .length;
+  const overlayParents = {
+    menu: document.getElementById('khz-app-menu')?.parentElement?.tagName || 'missing',
+    exportMenu: document.getElementById('v2-export-menu')?.parentElement?.tagName || 'missing',
+    board: document.getElementById('khz-board-modal')?.parentElement?.tagName || 'missing',
+    search: document.getElementById('khz-search-modal')?.parentElement?.tagName || 'missing',
+    shortcuts: document.getElementById('khz-shortcuts-modal')?.parentElement?.tagName || 'missing',
+    info: document.getElementById('khz-info-modal')?.parentElement?.tagName || 'missing',
+    quickActions: document.querySelector('.khz-quick-actions')?.parentElement?.tagName || 'missing'
+  };
+  const overlaysHoisted = Object.values(overlayParents).every(parent => parent === 'BODY' || parent === 'missing');
+  const pass = !buttonsWithoutAction.length && !staticMarkerProblems && !interactiveMarkerMissingLabels && overlaysHoisted;
+  return {
+    generated: new Date().toISOString(),
+    pass,
+    visibleButtonCount: visibleButtons.length,
+    buttonsWithoutAction,
+    markerSemantics: {
+      staticMarkerProblems,
+      interactiveMarkerMissingLabels
+    },
+    overlaysHoisted,
+    overlayParents
+  };
+}
+function showKhzAudit(){
+  closeKhazarMenu();
+  document.getElementById('v2-export-menu')?.classList.remove('open');
+  const audit = runKhazarUiAudit();
+  const status = audit.pass ? 'Passed' : 'Needs review';
+  const missing = audit.buttonsWithoutAction.length
+    ? audit.buttonsWithoutAction.map(item => item.label).slice(0, 6).join(', ')
+    : 'None';
+  const cards = [
+    ['Status', `${status} · ${audit.visibleButtonCount} visible buttons checked.`],
+    ['Button actions', `${audit.buttonsWithoutAction.length} visible buttons without an action. ${missing}`],
+    ['Map labels', `${audit.markerSemantics.staticMarkerProblems} static label issues; ${audit.markerSemantics.interactiveMarkerMissingLabels} interactive markers missing labels.`],
+    ['Overlay hoisting', audit.overlaysHoisted ? 'Menus, modals, exports and quick actions are attached to body.' : `Check overlay parents: ${JSON.stringify(audit.overlayParents)}`]
+  ];
+  const set = (id, text) => { const el = document.getElementById(id); if(el) el.textContent = text; };
+  set('khz-info-kicker', 'UI Audit');
+  set('khz-info-title', 'Interface reliability check');
+  set('khz-info-sub', 'Internal audit for button wiring, popup hoisting and Leaflet label semantics.');
+  const body = document.getElementById('khz-info-body');
+  if(body) body.innerHTML = cards.map(([title, text], index) => `<div class="khz-info-card"><strong class="${index === 0 ? (audit.pass ? 'khz-audit-pass' : 'khz-audit-warn') : ''}">${khzEscape(title)}</strong><span>${khzEscape(text)}</span></div>`).join('');
+  document.getElementById('khz-info-modal')?.classList.add('open');
+  setWorkspaceStatus(audit.pass ? 'UI audit passed.' : 'UI audit needs review.');
+  return audit;
+}
 function updateV2Audit(){
   const set = (id, value) => { const el = document.getElementById(id); if(el) el.textContent = value; };
   const label = {exec:'Executive', ops:'Operations', evidence:'Evidence', technical:'Technical'}[V2_STATE.mode] || 'Executive';
@@ -4122,6 +4455,8 @@ function initV2(){
     optimiseKhzBoard,
     openKhzSearch,
     showKhzInfo,
+    showKhzAudit,
+    runKhazarUiAudit,
     toggleKhzKeyboardHelp,
     parseCSV,
     normaliseCalibration
